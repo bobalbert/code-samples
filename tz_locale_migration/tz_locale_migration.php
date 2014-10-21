@@ -13,15 +13,13 @@ $starttime = date("h:i:sa");
 error_log("Starttime: {$starttime}" ."\n",3,'/var/log/korrio/tz_locale_error.log');
 error_log("Starttime: {$starttime}" ."\n",3,'/var/log/korrio/tz_locale_success.log');
 
-$theusers = $wpdb->get_results("select ID
-	from wp_users 
-	where ID not in 
-		(select wp_users.ID from wp_users
-			left join wp_bp_xprofile_data ON wp_users.ID = wp_bp_xprofile_data.user_id
-			where wp_bp_xprofile_data.field_id = '131' and wp_bp_xprofile_data.value != '') limit 150000,200000;");
-			
-//$theusers = array(169256);
-//$theusers = array(162981,101808,92926,92316,124935,93017,90317,508,170935,178676);
+$theusers = $wpdb->get_results("SELECT ID
+	FROM wp_users
+	WHERE ID NOT IN
+		(SELECT wp_users.ID FROM wp_users
+			LEFT JOIN wp_bp_xprofile_data ON wp_users.ID = wp_bp_xprofile_data.user_id
+			WHERE wp_bp_xprofile_data.field_id = '131' AND wp_bp_xprofile_data.value != '') ORDER BY ID DESC limit 50000;");
+
 
 // need to add in the Canadan provinces
 $tz_states = array (
