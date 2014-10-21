@@ -35,6 +35,11 @@ $tz_states = array (
     'America/Kentucky/Louisville'=>array('KY'),
     'America/North_Dakota/Center'=>array('ND'),
     'America/Phoenix'=>array('AZ'),
+    'America/Vancouver'=>array('BC'),
+    'America/Toronto'=>array('ON', 'QC'),
+    'America/Edmonton'=>array('AB'),
+    'America/Winnipeg'=>array('MB'),
+    'America/Regina'=>array('SK')
 );
 
 foreach ($theusers as $user){
