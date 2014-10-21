@@ -15,4 +15,5 @@ Cordova plugins:
 - cordova.camera
 
 WordPress Plugins:
+- Custom REST API plugin based on [Tonic](http://www.peej.co.uk/tonic/)
 - [JSON API](https://wordpress.org/plugins/json-api/)
