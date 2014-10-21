@@ -10,6 +10,8 @@ require('./wp-load.php');
 global $wpdb;
 
 $starttime = date("h:i:sa");
+error_log("Starttime: {$starttime}" ."\n",3,'/var/log/korrio/tz_locale_error.log');
+error_log("Starttime: {$starttime}" ."\n",3,'/var/log/korrio/tz_locale_success.log');
 
 $theusers = $wpdb->get_results("select ID
 	from wp_users 
