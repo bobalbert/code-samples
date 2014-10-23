@@ -1,0 +1,17 @@
+.cf_lower{
+	clear:both;
+}
+
+.cf_radio_opt_del{
+	margin-right:330px;
+}
+
+label.error {
+    font-weight: bold;
+    color: red;
+    margin:-10px 0px 5px 0px;
+}
+
+.all-customfields .tools {
+    width: 140px;
+}

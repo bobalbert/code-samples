@@ -1,0 +1,161 @@
+<div class="edit-customfields-holder hide">
+	<form action="#" class="create-group-form" id="edit-customfield-form" method="post">
+        <input id="action"         name="action"         type="hidden" value="new" />
+        <input id="customfield_id" name="customfield_id" type="hidden" value="" />
+        <input id="group_id"       name="group_id"       type="hidden" value="<?php echo esc_attr( $this->group_id ); ?>" />
+
+        <div class="row ml20">
+            <div class="span10 mt10 mb10 pt10" id="customfield-form-title"><h3>Create Custom Field</h3></div>
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span4">
+						<div class="error-message hide" data-tooltip="bottom">That name is already used by another custom field. Please enter a unique name.</div>
+                        <label class="control-label">Name
+                            <a class="help-icon"
+                               data-content="<?php _e("The name of your Custom Fields. This will help you organize your Custom Fields as well as the value you will search for data on. <strong>Fields is required</strong>", "buddypress"); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Name","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a>	</label>
+                        <div class="controls">
+                            <input id="customfield_name" name="name" type="text" class="span4 required " maxlength="100" value="" />
+
+                        </div>
+                    </div>
+                </div>	<!-- //.content-group -->
+            </div>
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span4">
+                        <label class="control-label">Type
+                            <a class="help-icon"
+                               data-content="<?php _e("The type of Custom Field that you want. Once saved, type can not be changed.", "buddypress"); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Type of Custom Field","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a>	</label>
+                        <div class="controls">
+                            <select id="customfield_type" class="cf_type_form required" name="type" class="span4">
+                                <option value="text">text</option>
+                                <option value="textarea">textarea</option>
+                                <option value="radio">radio</option>
+                                <option value="yes/no">yes/no</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>	<!-- //.span10 -->
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span4 ">
+                        <label class="control-label">Label
+                            <a class="help-icon"
+                               data-content="<?php _e( "This is the text/question that will display during registration. <strong>Fields is required</strong>", "buddypress" ); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Label","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a>
+                        </label>
+                        <div class="controls">
+                            <textarea id="customfield_text" name="text" class="textarea span7 required"></textarea>
+                        </div>
+                    </div>	<!-- //.control-group .span3 -->
+                </div>
+            </div><!-- //.span10 -->
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span4 ">
+                        <label class="control-label">Description
+                            <a class="help-icon"
+                               data-content="<?php _e( "This will appear as the Custom Field description during registration.", "buddypress" ); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Description","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a>
+                        </label>
+                        <div class="controls">
+                            <textarea id="customfield_description" name="description" class="textarea span7" rows="3"></textarea>
+                        </div>
+                    </div>	<!-- //.control-group .span3 -->
+                </div>
+            </div><!-- //.span10 -->
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span4">
+                        <label class="control-label">Visibility
+                            <a class="help-icon"
+                               data-content="<?php _e("Will the Custom field be visible during registration or should it be hidden", "buddypress"); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Visiblity","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a></label>
+                        <div class="controls">
+                            <select id="customfield_is_visible" name="is_visible" class="span4">
+                                <option value="1">Visible</option>
+                                <option value="0">Hidden</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>	<!-- //.span10 -->
+
+            <div class="span10">
+                <div class="content-group">
+                    <div class="control-group span2">
+                        <label class="control-label">Required?
+                            <a class="help-icon"
+                               data-content="<?php _e("Is the user required to answer or select something during registration?", "buddypress"); ?>"
+                               rel="popover"
+                               href="#"
+                               data-original-title="<?php _e("Required?","buddypress"); ?>">
+                                <i class="icon-question-sign"></i>
+                            </a></label>
+                        <div class="controls">
+                            <select id="customfield_is_required" name="is_required" class="span4">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span10">
+                <div class="content-group span10" id="cf_radio_opt_add">
+                    <?php /* Custom Field RADIO OPTIONS */ ?>
+                    <div class="control-group show" id="cf_radio_cont">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <button class="cf_create_radio_opt_btn">New Radio Option</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row ml20">
+            <div class="span10 pt20 mt30">
+                <div class="span5 pull-right">
+                    <a href="#" class="customfields-save btn btn-success">Save changes</a>
+                    <a href="#" class="customfields-cancel btn btn-warning">Cancel</a>
+                </div>
+            </div>
+        </div>
+
+	</form>
+</div>

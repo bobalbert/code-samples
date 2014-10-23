@@ -1,0 +1,123 @@
+<style>
+	table.tablesorter.customfields_table .header {
+		border-left:1px solid #cccccc;
+		background-position:-16px 0px;
+		padding-left:3px;
+		cursor:default;
+	}
+	table.tablesorter.customfields_table td.order {
+		cursor:move;
+	}
+	table.tablesorter.customfields_table tr.myDragClass {
+		border:2px solid;
+	}
+</style>
+
+<table class="tablesorter customfields_table table table-condensed table-bordered">
+<thead>
+	<tr>
+		<th class="header">Name</th>
+		<th class="header">Label</th>
+		<th class="header">Type</th>
+        <th class="header">Visible</th>
+        <th class="header">Required</th>
+		<th class="header"></th>
+	</tr>
+</thead>
+<tbody>
+<?php
+	if ( count( $this->customfields ) > 0 ) {
+	
+		foreach ( $this->customfields as $customfield ) {
+
+            if($customfield['type'] != 'file'){
+				if($customfield['state'] == 'inactive'){
+					$inactive[] = $customfield;
+				}else{?>
+					<tr id="customfield_row_<?php echo esc_attr( $customfield['id'] ); ?>" >
+
+						<td class="name"><?php echo esc_html( $customfield['title'] ); ?></td>
+						<td class="text"><?php echo esc_html( $customfield['text'] ); ?></td>
+						<td class="type"><?php echo esc_html( $customfield['type'] ); ?></td>
+						<td class="is_visible"><?php
+							if($customfield['is_visible']){
+								echo "Yes";
+							} else {
+								echo "No";
+							}
+							?></td>
+						<td class="is_required"><?php
+							if( $customfield['is_required'] ) {
+								echo "Yes";
+							} else {
+								echo "No";
+							}
+							?></td>
+						<td class="tools" width="140">
+							<button class="btn btn-small btn-success edit-customfield-details" id="<?php echo esc_attr( $customfield['id'] ); ?>" >Edit</button> &nbsp;
+							<button class="btn btn-small btn-danger inactive-customfield" id="<?php echo esc_attr( $customfield['id'] ); ?>" >Delete</button>
+						</td>
+					</tr>
+				<?php
+				}
+			}
+            ?>
+
+		<?php }
+	} else { ?>
+		<tr><td colspan="4">There are no Custom Fields for this club.</td></tr>
+	<?php } ?>
+</tbody>
+</table>
+<p>
+<button class="btn btn-mini btn-warning pull-right mr10 mb10" id="show-deleted" >Show Deleted</button></p>
+
+<table class="inactive_customfields_table table table-condensed table-bordered hide">
+    <thead>
+        <tr>
+            <th colspan="6" style="background-color: #cccccc">Inactive Custom Fields</th>
+        </tr>
+        <tr>
+
+            <th class="header">Name</th>
+            <th class="header">Label</th>
+            <th class="header">Type</th>
+            <th class="header">Visible</th>
+            <th class="header">Required</th>
+            <th class="header"></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+    if ( count($inactive ) > 0) {
+        foreach ( $inactive as $customfield ) {
+        ?>
+            <tr id="customfield_row_<?php echo esc_attr( $customfield['id'] ); ?>" >
+
+                <td class="name"><?php echo esc_html( $customfield['title'] ); ?></td>
+                <td class="text"><?php echo esc_html( $customfield['text'] ); ?></td>
+                <td class="type"><?php echo esc_html( $customfield['type'] ); ?></td>
+                <td class="is_visible"><?php
+                    if ( $customfield['is_visible'] ) {
+                        echo "Yes";
+                    } else {
+                        echo "No";
+                    }
+                    ?></td>
+                <td class="is_required"><?php
+                    if ( $customfield['is_required'] ) {
+                        echo "Yes";
+                    } else {
+                        echo "No";
+                    }
+                    ?></td>
+                <td class="tools" width="140">
+                    <button class="btn btn-small btn-success activate-customfield" id="<?php echo esc_attr( $customfield['id'] ); ?>" >Activate</button>
+                </td>
+            </tr>
+        <?php
+        }
+    }
+    ?>
+    </tbody>
+</table>
