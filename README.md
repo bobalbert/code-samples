@@ -6,11 +6,11 @@ A bunch of code samples for potential clients and employers to review. Most all 
 ###Mequoda Systems, LLC
 Mequoda is America's leading niche magazine consulting firm. They plan, develop and grow content marketing systems for publishers Mequoda’s Haven System™ enables their clients to dominate their niches using their proprietary strategic, marketing and analytic solution at an affordable price.
 
-- [haven-recurly](https://bitbucket.org/balbert/code_samples/src/master/Mequoda/haven-recurly/)
-- [haven-order-manager](https://bitbucket.org/balbert/code_samples/src/master/Mequoda/haven-order-manager/)
-- [mequoda-think-framework](https://bitbucket.org/balbert/code_samples/src/master/Mequoda/haven-think-framework)
-- [haven-AAA-automated-subscriber-reconciliation](https://bitbucket.org/balbert/code_samples/src/master/Mequoda/haven-AAA-automated-subscriber-reconciliation)
-- [haven-post-data-exporter](https://bitbucket.org/balbert/code_samples/src/master/Mequoda/haven-post-data-exporter)
+- [haven-recurly](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-recurly)
+- [haven-order-manager](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-order-manager/)
+- [mequoda-think-framework](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-think-framework)
+- [haven-AAA-automated-subscriber-reconciliation](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-AAA-automated-subscriber-reconciliation)
+- [haven-post-data-exporter](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-post-data-exporter)
 
 
 ###Korrio, Inc.
