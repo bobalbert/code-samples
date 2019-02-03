@@ -1,0 +1,5 @@
+Haven Post Data Exporter
+========================
+Mequoda's primary service is SEO for content to draw in new subscribers. Part of this technique is to republish posts with new content to repurpose and increase rankings. Marketing folks needed a tool that could pull a list of posts by category and provide a csv list with last publish date, category and url to post along with a custom meta use to denote certain posts. From this list, they can decide which ones to republish and when.
+
+This is a simple plugin for Marketing team to pick date range and category to generate reports. The date pickers can accept a range, or just a starting date or just an ending date and will get the appropriate list based on publish date. Either all posts between the dates or all posts after the start date or all posts before the end date.

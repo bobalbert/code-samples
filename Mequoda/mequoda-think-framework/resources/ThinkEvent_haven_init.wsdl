@@ -1,0 +1,2068 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://Think/XmlWebServices/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://Think/XmlWebServices/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+   <types>
+      <xsd:schema elementFormDefault="qualified" targetNamespace="http://Think/XmlWebServices/">
+         <xsd:simpleType name="ZZMoney">
+            <xsd:restriction base="xsd:decimal">
+               <xsd:maxInclusive value="922337203685477.5807"/>
+               <xsd:minInclusive value="-922337203685477.5808"/>
+               <xsd:fractionDigits value="4"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+         <xsd:simpleType name="ZZBoolean">
+            <xsd:restriction base="xsd:NMTOKEN">
+               <xsd:enumeration value="yes"/>
+               <xsd:enumeration value="no"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+         <xsd:simpleType name="ZZCustomerRole">
+            <xsd:restriction base="xsd:NMTOKEN">
+               <xsd:enumeration value="unspecified"/>
+               <xsd:enumeration value="parent"/>
+               <xsd:enumeration value="oldParent"/>
+               <xsd:enumeration value="child"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+         <xsd:element name="user_login_data">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="login" type="xsd:string"/>
+                  <xsd:element name="password" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="customer_identifier">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="customer_id" type="xsd:int" minOccurs="0" default="0"/>
+                  <xsd:element name="login" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="password" type="xsd:string" minOccurs="0"/>
+               </xsd:sequence>
+               <xsd:attribute name="authentication_code" type="xsd:string"/>
+               <xsd:attribute name="target_element" type="xsd:string"/>
+               <xsd:attribute name="role" type="s0:ZZCustomerRole" use="optional" default="unspecified"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="payment_identifier">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="s0:customer_identifier"/>
+                  <xsd:element name="payment_seq" type="xsd:int"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:complexType name="ZZItemIdentifier">
+            <xsd:sequence>
+               <xsd:element name="orderhdr_id" type="xsd:int"/>
+               <xsd:element name="order_item_seq" type="xsd:int"/>
+            </xsd:sequence>
+            <xsd:attribute name="send_back_issues" type="s0:ZZBoolean" use="optional" default="yes"/>
+         </xsd:complexType>
+         <xsd:element name="item_identifier" type="s0:ZZItemIdentifier"/>
+         <xsd:complexType name="ZZSubscripIdentifier">
+            <xsd:sequence>
+               <xsd:element name="subscrip_id" type="xsd:int"/>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:element name="subscrip_identifier" type="s0:ZZSubscripIdentifier"/>
+         <xsd:element name="auxiliary_data">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0">
+                     <xsd:element name="int_val" type="xsd:int"/>
+                     <xsd:element name="text_val" type="xsd:string"/>
+                     <xsd:element name="dec_val" type="xsd:decimal"/>
+                     <xsd:element name="date_val" type="xsd:dateTime"/>
+                  </xsd:choice>
+               </xsd:sequence>
+               <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:complexType name="ZZAgency">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="accept_ord" use="required" type="xsd:int"/>
+            <xsd:attribute name="agency_bill_to" use="required" type="xsd:int"/>
+            <xsd:attribute name="agency_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="agency_pays_tax" use="required" type="xsd:int"/>
+            <xsd:attribute name="agency_renew_to" use="required" type="xsd:int"/>
+            <xsd:attribute name="company" type="xsd:string"/>
+            <xsd:attribute name="discounts" use="required" type="xsd:int"/>
+            <xsd:attribute name="new_commission" type="s0:ZZMoney"/>
+            <xsd:attribute name="payment_threshold" type="xsd:string"/>
+            <xsd:attribute name="remit" use="required" type="xsd:int"/>
+            <xsd:attribute name="ren_commission" type="s0:ZZMoney"/>
+            <xsd:attribute name="tax_based_on_gross" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZAttachment">
+            <xsd:attribute name="attachment_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="attachment_category" type="xsd:string"/>
+            <xsd:attribute name="attachment_content" type="xsd:base64Binary"/>
+            <xsd:attribute name="attachment_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="attachment_url" type="xsd:string"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="file_name" type="xsd:string"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomer">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="company" type="xsd:string"/>
+            <xsd:attribute name="creation_date" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="credit_status" use="required" type="xsd:string"/>
+            <xsd:attribute name="customer_category" type="xsd:string"/>
+            <xsd:attribute name="def_bill_to_cust_addr_seq" type="xsd:int"/>
+            <xsd:attribute name="def_renew_to_cust_addr_seq" type="xsd:int"/>
+            <xsd:attribute name="default_bill_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="default_cust_addr_seq" type="xsd:int"/>
+            <xsd:attribute name="default_renew_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="email" type="xsd:string"/>
+            <xsd:attribute name="email_authorization" type="xsd:hexBinary"/>
+            <xsd:attribute name="fname" type="xsd:string"/>
+            <xsd:attribute name="inactive" use="required" type="xsd:int"/>
+            <xsd:attribute name="initial_name" type="xsd:string"/>
+            <xsd:attribute name="institutional_identifier" type="xsd:string"/>
+            <xsd:attribute name="list_rental_category" type="xsd:string"/>
+            <xsd:attribute name="lname" type="xsd:string"/>
+            <xsd:attribute name="nbr_times_issued" type="xsd:int"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="old_customer_id" type="xsd:string"/>
+            <xsd:attribute name="old_email" type="xsd:string"/>
+            <xsd:attribute name="parent_inst_identifier" type="xsd:string"/>
+            <xsd:attribute name="prospect_only" use="required" type="xsd:int"/>
+            <xsd:attribute name="sales_representative_id" type="xsd:int"/>
+            <xsd:attribute name="salutation" type="xsd:string"/>
+            <xsd:attribute name="suffix" type="xsd:string"/>
+            <xsd:attribute name="title" type="xsd:string"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="zzaux_haven_init" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerAddress">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_address_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="address1" type="xsd:string"/>
+            <xsd:attribute name="address2" type="xsd:string"/>
+            <xsd:attribute name="address3" type="xsd:string"/>
+            <xsd:attribute name="address_status" use="required" type="xsd:string"/>
+            <xsd:attribute name="address_type" use="required" type="xsd:string"/>
+            <xsd:attribute name="audit_company_id" type="xsd:int"/>
+            <xsd:attribute name="audit_county" type="xsd:string"/>
+            <xsd:attribute name="audit_name_change" default="0" type="xsd:int"/>
+            <xsd:attribute name="audit_title_change" default="0" type="xsd:int"/>
+            <xsd:attribute name="carrier" type="xsd:string"/>
+            <xsd:attribute name="cass_date" type="xsd:int"/>
+            <xsd:attribute name="change_type" type="xsd:int"/>
+            <xsd:attribute name="city" type="xsd:string"/>
+            <xsd:attribute name="company" type="xsd:string"/>
+            <xsd:attribute name="county" type="xsd:string"/>
+            <xsd:attribute name="delivery_point" type="xsd:string"/>
+            <xsd:attribute name="department" type="xsd:string"/>
+            <xsd:attribute name="dp_barcode" type="xsd:string"/>
+            <xsd:attribute name="effective_date" type="xsd:date"/>
+            <xsd:attribute name="eighthundred" type="xsd:string"/>
+            <xsd:attribute name="email" type="xsd:string"/>
+            <xsd:attribute name="faxnbr" type="xsd:string"/>
+            <xsd:attribute name="fname" type="xsd:string"/>
+            <xsd:attribute name="ignored_clean" use="required" type="xsd:int"/>
+            <xsd:attribute name="initial_name" type="xsd:string"/>
+            <xsd:attribute name="institutional_identifier" type="xsd:string"/>
+            <xsd:attribute name="lname" type="xsd:string"/>
+            <xsd:attribute name="lot_nbr" type="xsd:string"/>
+            <xsd:attribute name="mailstop" type="xsd:string"/>
+            <xsd:attribute name="old_email" type="xsd:string"/>
+            <xsd:attribute name="phone" type="xsd:string"/>
+            <xsd:attribute name="replace_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="reverse_date" type="xsd:date"/>
+            <xsd:attribute name="salutation" type="xsd:string"/>
+            <xsd:attribute name="special_tax_id" default="0" type="xsd:int"/>
+            <xsd:attribute name="state" use="required" type="xsd:string"/>
+            <xsd:attribute name="suffix" type="xsd:string"/>
+            <xsd:attribute name="supp_clean" use="required" type="xsd:int"/>
+            <xsd:attribute name="tax_id_number" type="xsd:string"/>
+            <xsd:attribute name="title" type="xsd:string"/>
+            <xsd:attribute name="zip" type="xsd:string"/>
+            <xsd:attribute name="zzaux_haven_init_add" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerAddressMatchCode">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_address_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_match_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="match_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerGroup">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="back_issue_ship_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="bill_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="bill_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="creation_date" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_address_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_group" use="required" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="fte_cnt_added" type="xsd:int"/>
+            <xsd:attribute name="fte_cnt_avail" type="xsd:int"/>
+            <xsd:attribute name="fte_count" type="xsd:int"/>
+            <xsd:attribute name="fte_grace_cnt" type="xsd:int"/>
+            <xsd:attribute name="fte_grace_pct" type="xsd:int"/>
+            <xsd:attribute name="new_group_member_action" type="xsd:int"/>
+            <xsd:attribute name="renew_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="renew_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="rep_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="rep_customer_id" type="xsd:int"/>
+            <xsd:attribute name="ship_type" default="1" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerLogin">
+            <xsd:attribute name="customer_login_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="customer_login_question_id" type="xsd:int"/>
+            <xsd:attribute name="hint" type="xsd:string"/>
+            <xsd:attribute name="invalid_auth_attempts" use="required" type="xsd:int"/>
+            <xsd:attribute name="is_primary_login" default="1" type="xsd:int"/>
+            <xsd:attribute name="locked_out" use="required" type="xsd:int"/>
+            <xsd:attribute name="lockout_start" type="xsd:dateTime"/>
+            <xsd:attribute name="login" type="xsd:string"/>
+            <xsd:attribute name="password" type="xsd:string"/>
+            <xsd:attribute name="pending_xaction_header_id" type="xsd:int"/>
+            <xsd:attribute name="pending_xaction_seq" type="xsd:int"/>
+            <xsd:attribute name="response" type="xsd:string"/>
+            <xsd:attribute name="salt" type="xsd:int"/>
+            <xsd:attribute name="temp_expire" type="xsd:dateTime"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerNote">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZCustomerProspect">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_prospect_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="active_prospect" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_name_title_id" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_category" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_source_id" type="xsd:int"/>
+            <xsd:attribute name="audit_sales_channel_id" type="xsd:int"/>
+            <xsd:attribute name="audit_subscription_type_id" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="prospect_category" use="required" type="xsd:string"/>
+            <xsd:attribute name="qual_date" type="xsd:date"/>
+            <xsd:attribute name="referred_by_customer_id" type="xsd:int"/>
+            <xsd:attribute name="source_code_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDeal">
+            <xsd:attribute name="deal_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="deal" use="required" type="xsd:string"/>
+            <xsd:attribute name="deal_ord_cust_required" use="required" type="xsd:int"/>
+            <xsd:attribute name="deal_status" use="required" type="xsd:string"/>
+            <xsd:attribute name="deal_type" use="required" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="end_date" type="xsd:date"/>
+            <xsd:attribute name="start_date" type="xsd:date"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDealOrderCode">
+            <xsd:attribute name="deal_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="deal_order_code_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="source_code_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDealOrderingCustomer">
+            <xsd:attribute name="deal_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDemographic">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="demographic_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="dem_form_id" type="xsd:int"/>
+            <xsd:attribute name="dem_question_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="free_form_response" type="xsd:string"/>
+            <xsd:attribute name="last_response_date" type="xsd:dateTime"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="responses" type="xsd:hexBinary"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDistributor">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="company" use="required" type="xsd:string"/>
+            <xsd:attribute name="distributor_report_prefix" type="xsd:string"/>
+            <xsd:attribute name="parent_distributor_id" type="xsd:int"/>
+            <xsd:attribute name="url" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZDocumentReference">
+            <xsd:attribute name="document_reference_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="active" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="type" use="required" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZEventQueue">
+            <xsd:attribute name="event_queue_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="alt_url" type="xsd:string"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="customer_login_id" type="xsd:int"/>
+            <xsd:attribute name="email" type="xsd:string"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="message" type="xsd:string"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="payment_account_seq" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" type="xsd:int"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="service_seq" type="xsd:int"/>
+            <xsd:attribute name="source_job_id" type="xsd:int"/>
+            <xsd:attribute name="source_work_table_seq" type="xsd:int"/>
+            <xsd:attribute name="status" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="suspension_seq" type="xsd:int"/>
+            <xsd:attribute name="transaction_event" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZGroupMember">
+            <xsd:attribute name="customer_group_customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="active" type="xsd:int"/>
+            <xsd:attribute name="authorized" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="n_copies" type="xsd:int"/>
+            <xsd:attribute name="processing_priority" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZInstallmentPlan">
+            <xsd:attribute name="installment_plan_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="allow_default_usage" use="required" type="xsd:int"/>
+            <xsd:attribute name="auto_setup" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" use="required" type="xsd:string"/>
+            <xsd:attribute name="interval" type="xsd:int"/>
+            <xsd:attribute name="interval_type" type="xsd:int"/>
+            <xsd:attribute name="nbr_installments" use="required" type="xsd:int"/>
+            <xsd:attribute name="report" type="xsd:string"/>
+            <xsd:attribute name="unpaid_issues_new" type="xsd:int"/>
+            <xsd:attribute name="unpaid_issues_renew" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZIpAddress">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="low_ip" use="required" type="xsd:int"/>
+            <xsd:attribute name="date_stamp" type="xsd:int"/>
+            <xsd:attribute name="high_ip" use="required" type="xsd:int"/>
+            <xsd:attribute name="high_ip_dotted" type="xsd:string"/>
+            <xsd:attribute name="low_ip_dotted" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZIssue">
+            <xsd:attribute name="issue_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="analyzed" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_begin_date" type="xsd:date"/>
+            <xsd:attribute name="audit_end_date" type="xsd:date"/>
+            <xsd:attribute name="audit_galley_created" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_galley_nth_done" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_galley_sorted" use="required" type="xsd:int"/>
+            <xsd:attribute name="drop_date" type="xsd:date"/>
+            <xsd:attribute name="enum_issue_nbr" type="xsd:int"/>
+            <xsd:attribute name="enum_volume_nbr" type="xsd:int"/>
+            <xsd:attribute name="enumeration" type="xsd:string"/>
+            <xsd:attribute name="frozen" use="required" type="xsd:int"/>
+            <xsd:attribute name="generate_revenue" use="required" type="xsd:int"/>
+            <xsd:attribute name="inventory_id" type="xsd:int"/>
+            <xsd:attribute name="issue_close_date" type="xsd:dateTime"/>
+            <xsd:attribute name="issue_date" use="required" type="xsd:date"/>
+            <xsd:attribute name="issue_url" type="xsd:string"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="sub_out_bit_pos" type="xsd:int"/>
+            <xsd:attribute name="update_orders" use="required" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="volume_group_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJob">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="adj_order_issue_method" type="xsd:int"/>
+            <xsd:attribute name="audit_galley_doc_ref_date" type="xsd:date"/>
+            <xsd:attribute name="audit_galley_sort_def" type="xsd:string"/>
+            <xsd:attribute name="auto_renewals" type="xsd:int"/>
+            <xsd:attribute name="back_issues_on_reinstated" type="xsd:int"/>
+            <xsd:attribute name="bacs_step" type="xsd:int"/>
+            <xsd:attribute name="cleanedup" type="xsd:int"/>
+            <xsd:attribute name="cleanup_def" type="xsd:string"/>
+            <xsd:attribute name="create_audit_galley" default="0" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="cutoff_date" type="xsd:date"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="drop_date" type="xsd:date"/>
+            <xsd:attribute name="end_job_datetime" type="xsd:dateTime"/>
+            <xsd:attribute name="end_select_date_stamp" type="xsd:int"/>
+            <xsd:attribute name="force_repeat" default="0" type="xsd:int"/>
+            <xsd:attribute name="generate_renew_offers" type="xsd:int"/>
+            <xsd:attribute name="grace_current" default="0" type="xsd:int"/>
+            <xsd:attribute name="grace_new" default="0" type="xsd:int"/>
+            <xsd:attribute name="has_errors" use="required" type="xsd:int"/>
+            <xsd:attribute name="hold_bits" use="required" type="xsd:int"/>
+            <xsd:attribute name="incl_pkg_members" default="0" type="xsd:int"/>
+            <xsd:attribute name="interval_unit" default="0" type="xsd:int"/>
+            <xsd:attribute name="inv_serve_label" use="required" type="xsd:int"/>
+            <xsd:attribute name="job_completion_email_address" type="xsd:string"/>
+            <xsd:attribute name="job_description" type="xsd:string"/>
+            <xsd:attribute name="job_priority" use="required" type="xsd:int"/>
+            <xsd:attribute name="label_group" type="xsd:string"/>
+            <xsd:attribute name="label_keyline" type="xsd:string"/>
+            <xsd:attribute name="last_pulse" type="xsd:dateTime"/>
+            <xsd:attribute name="list_company" type="xsd:string"/>
+            <xsd:attribute name="log_option" use="required" type="xsd:int"/>
+            <xsd:attribute name="manual_review_fulfillment" use="required" type="xsd:int"/>
+            <xsd:attribute name="n_candidate_records" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_days_to_next_run" type="xsd:int"/>
+            <xsd:attribute name="n_interval_units" default="1" type="xsd:int"/>
+            <xsd:attribute name="n_minutes_to_next_run" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_selected_records" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_updated_records" default="0" type="xsd:int"/>
+            <xsd:attribute name="note" type="xsd:string"/>
+            <xsd:attribute name="nth_audit_galley" default="0" type="xsd:int"/>
+            <xsd:attribute name="nth_def" type="xsd:string"/>
+            <xsd:attribute name="output_step" default="0" type="xsd:int"/>
+            <xsd:attribute name="pending_xaction_header_id" type="xsd:int"/>
+            <xsd:attribute name="process_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="purpose" type="xsd:string"/>
+            <xsd:attribute name="queue" type="xsd:string"/>
+            <xsd:attribute name="repeating_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="run_payment_after_bill" type="xsd:int"/>
+            <xsd:attribute name="schedule_payment_date" type="xsd:date"/>
+            <xsd:attribute name="select_end_date" type="xsd:date"/>
+            <xsd:attribute name="select_start_date" type="xsd:date"/>
+            <xsd:attribute name="sort_audit_galley" default="0" type="xsd:int"/>
+            <xsd:attribute name="sql_script" type="xsd:string"/>
+            <xsd:attribute name="start_date_time" type="xsd:dateTime"/>
+            <xsd:attribute name="status" use="required" type="xsd:int"/>
+            <xsd:attribute name="step_name" type="xsd:string"/>
+            <xsd:attribute name="step_number" use="required" type="xsd:int"/>
+            <xsd:attribute name="upd_recon_tables" use="required" type="xsd:int"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+            <xsd:attribute name="volume_group_id" type="xsd:int"/>
+            <xsd:attribute name="work_file" type="xsd:string"/>
+            <xsd:attribute name="write_recon_dtl" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJqsAlert">
+            <xsd:attribute name="jqs_alert_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="alert_sent" default="0" type="xsd:int"/>
+            <xsd:attribute name="current_phase" use="required" type="xsd:int"/>
+            <xsd:attribute name="datetime" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="email" use="required" type="xsd:string"/>
+            <xsd:attribute name="error_message" type="xsd:string"/>
+            <xsd:attribute name="job_id" type="xsd:int"/>
+            <xsd:attribute name="jqs_client_id" type="xsd:int"/>
+            <xsd:attribute name="notification_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="step_name" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJqsClient">
+            <xsd:attribute name="jqs_client_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="connection_verified" use="required" type="xsd:int"/>
+            <xsd:attribute name="default_fatal_email" type="xsd:string"/>
+            <xsd:attribute name="default_from_email" type="xsd:string"/>
+            <xsd:attribute name="default_job_done_email" type="xsd:string"/>
+            <xsd:attribute name="default_no_connect_email" type="xsd:string"/>
+            <xsd:attribute name="default_notification_bits" default="127" type="xsd:int"/>
+            <xsd:attribute name="default_on_hold_email" type="xsd:string"/>
+            <xsd:attribute name="default_output_ready_email" type="xsd:string"/>
+            <xsd:attribute name="default_review_ready_email" type="xsd:string"/>
+            <xsd:attribute name="default_warning_email" type="xsd:string"/>
+            <xsd:attribute name="description" use="required" type="xsd:string"/>
+            <xsd:attribute name="dsn" use="required" type="xsd:string"/>
+            <xsd:attribute name="login" use="required" type="xsd:string"/>
+            <xsd:attribute name="password" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJqsConfig">
+            <xsd:attribute name="default_notification_email" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJqsMachine">
+            <xsd:attribute name="jqs_machine_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="last_poll" type="xsd:dateTime"/>
+            <xsd:attribute name="machine_name" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZJqsQueue">
+            <xsd:attribute name="jqs_queue_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="connection_verified" use="required" type="xsd:int"/>
+            <xsd:attribute name="current_phase" use="required" type="xsd:int"/>
+            <xsd:attribute name="health_interval" use="required" type="xsd:int"/>
+            <xsd:attribute name="job_id" type="xsd:int"/>
+            <xsd:attribute name="jqs_client_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="jqs_machine_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="last_poll_or_pulse" type="xsd:dateTime"/>
+            <xsd:attribute name="login" type="xsd:string"/>
+            <xsd:attribute name="n_candidate_records" type="xsd:int"/>
+            <xsd:attribute name="n_selected_records" type="xsd:int"/>
+            <xsd:attribute name="n_updated_records" type="xsd:int"/>
+            <xsd:attribute name="password" type="xsd:string"/>
+            <xsd:attribute name="queue" use="required" type="xsd:string"/>
+            <xsd:attribute name="step_name" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderCode">
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="active" use="required" type="xsd:int"/>
+            <xsd:attribute name="allow_on_internet" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_name_title_id" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_category" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_source_id" type="xsd:int"/>
+            <xsd:attribute name="audit_sales_channel_id" type="xsd:int"/>
+            <xsd:attribute name="audit_subscription_type_id" type="xsd:int"/>
+            <xsd:attribute name="auto_payment" use="required" type="xsd:int"/>
+            <xsd:attribute name="auto_renewal" use="required" type="xsd:int"/>
+            <xsd:attribute name="auto_replace" use="required" type="xsd:int"/>
+            <xsd:attribute name="backstart_tb_renewals" use="required" type="xsd:int"/>
+            <xsd:attribute name="charge_shipping" use="required" type="xsd:int"/>
+            <xsd:attribute name="commodity_code" type="xsd:string"/>
+            <xsd:attribute name="controlled" use="required" type="xsd:int"/>
+            <xsd:attribute name="credit_card_process" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="disallow_install_billing" use="required" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="edition" type="xsd:string"/>
+            <xsd:attribute name="electronic_delivery" use="required" type="xsd:int"/>
+            <xsd:attribute name="excess_rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="extfree_qty_limit" type="xsd:int"/>
+            <xsd:attribute name="from_date" type="xsd:date"/>
+            <xsd:attribute name="fulfillment_date" type="xsd:date"/>
+            <xsd:attribute name="grace_qty" type="xsd:int"/>
+            <xsd:attribute name="image_url" type="xsd:string"/>
+            <xsd:attribute name="is_addon" use="required" type="xsd:int"/>
+            <xsd:attribute name="is_proforma" use="required" type="xsd:int"/>
+            <xsd:attribute name="isbn" type="xsd:string"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="item_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="item_url" type="xsd:string"/>
+            <xsd:attribute name="max_n_items" type="xsd:int"/>
+            <xsd:attribute name="media" type="xsd:string"/>
+            <xsd:attribute name="min_n_items" type="xsd:int"/>
+            <xsd:attribute name="new_renewal_card_id" type="xsd:int"/>
+            <xsd:attribute name="newsub_rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="no_charge" use="required" type="xsd:int"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="order_code_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="perpetual_order" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_only_item" use="required" type="xsd:int"/>
+            <xsd:attribute name="place_anyway_if_cant_auth" use="required" type="xsd:int"/>
+            <xsd:attribute name="premium" use="required" type="xsd:int"/>
+            <xsd:attribute name="prepayment_req" use="required" type="xsd:int"/>
+            <xsd:attribute name="price" type="s0:ZZMoney"/>
+            <xsd:attribute name="product_author" type="xsd:string"/>
+            <xsd:attribute name="product_color" type="xsd:string"/>
+            <xsd:attribute name="product_size" type="xsd:string"/>
+            <xsd:attribute name="product_style" type="xsd:string"/>
+            <xsd:attribute name="pub_rotation_id" type="xsd:int"/>
+            <xsd:attribute name="qty" type="xsd:int"/>
+            <xsd:attribute name="reinstate_proforma_on_removal" use="required" type="xsd:int"/>
+            <xsd:attribute name="renew_as_proforma" use="required" type="xsd:int"/>
+            <xsd:attribute name="revenue_method" use="required" type="xsd:int"/>
+            <xsd:attribute name="sample_copy_order" use="required" type="xsd:int"/>
+            <xsd:attribute name="segmented_order" use="required" type="xsd:int"/>
+            <xsd:attribute name="settle_retry_def" type="xsd:string"/>
+            <xsd:attribute name="ship_premium_percentage" type="xsd:int"/>
+            <xsd:attribute name="ship_weight" type="s0:ZZMoney"/>
+            <xsd:attribute name="standord" use="required" type="xsd:int"/>
+            <xsd:attribute name="start_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscriber_site_long_desc" type="xsd:string"/>
+            <xsd:attribute name="subscriber_site_short_desc" type="xsd:string"/>
+            <xsd:attribute name="subscription_category_id" type="xsd:int"/>
+            <xsd:attribute name="taxable" use="required" type="xsd:int"/>
+            <xsd:attribute name="taxonomy" type="xsd:string"/>
+            <xsd:attribute name="term_id" type="xsd:int"/>
+            <xsd:attribute name="time_unit_options" use="required" type="xsd:int"/>
+            <xsd:attribute name="to_date" type="xsd:date"/>
+            <xsd:attribute name="trial_period" type="xsd:int"/>
+            <xsd:attribute name="trial_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="unit_excess" use="required" type="xsd:int"/>
+            <xsd:attribute name="unit_type_id" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItem">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="addon_to_order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="addon_to_orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="agency_customer_id" type="xsd:int"/>
+            <xsd:attribute name="agent_ref_nbr" type="xsd:string"/>
+            <xsd:attribute name="alt_ship_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="alt_ship_customer_id" type="xsd:int"/>
+            <xsd:attribute name="alt_ship_del_calc" type="xsd:int"/>
+            <xsd:attribute name="asynchronous_auto_renew" default="0" type="xsd:int"/>
+            <xsd:attribute name="attach_exist" type="xsd:int"/>
+            <xsd:attribute name="audit_name_title_id" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_category" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_source_id" type="xsd:int"/>
+            <xsd:attribute name="audit_sales_channel_id" type="xsd:int"/>
+            <xsd:attribute name="audit_subscription_type_id" type="xsd:int"/>
+            <xsd:attribute name="auto_payment" default="0" type="xsd:int"/>
+            <xsd:attribute name="auto_renew_notify_sent" default="0" type="xsd:int"/>
+            <xsd:attribute name="backord_qty" type="xsd:int"/>
+            <xsd:attribute name="bill_date" type="xsd:date"/>
+            <xsd:attribute name="bill_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="bill_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="billing_def" type="xsd:string"/>
+            <xsd:attribute name="billing_def_test_seq" type="xsd:int"/>
+            <xsd:attribute name="billing_type" type="xsd:int"/>
+            <xsd:attribute name="bundle_qty" type="xsd:int"/>
+            <xsd:attribute name="calendar_unit" type="xsd:int"/>
+            <xsd:attribute name="cancel_date" type="xsd:dateTime"/>
+            <xsd:attribute name="cancel_reason" type="xsd:string"/>
+            <xsd:attribute name="change_qty_flag" default="0" type="xsd:int"/>
+            <xsd:attribute name="charge_on_cancellation" type="xsd:int"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="customer_group_id" type="xsd:int"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="date_stamp" use="required" type="xsd:int"/>
+            <xsd:attribute name="deal_id" type="xsd:int"/>
+            <xsd:attribute name="delivery_method" type="xsd:string"/>
+            <xsd:attribute name="delivery_method_perm" default="0" type="xsd:int"/>
+            <xsd:attribute name="disc_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_card_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="distribution_method" type="xsd:string"/>
+            <xsd:attribute name="duration" type="xsd:int"/>
+            <xsd:attribute name="electronic_delivery" use="required" type="xsd:int"/>
+            <xsd:attribute name="electronic_document_identifier" type="xsd:string"/>
+            <xsd:attribute name="ex_rate_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="ex_rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="ex_ratecard_seq" type="xsd:int"/>
+            <xsd:attribute name="exchange_rate" type="s0:ZZMoney"/>
+            <xsd:attribute name="expire_date" type="xsd:date"/>
+            <xsd:attribute name="ext_iss_left" type="xsd:int"/>
+            <xsd:attribute name="ext_iss_tot" type="xsd:int"/>
+            <xsd:attribute name="extended_days" type="xsd:int"/>
+            <xsd:attribute name="extended_rate" type="s0:ZZMoney"/>
+            <xsd:attribute name="fulfillment_date" type="xsd:date"/>
+            <xsd:attribute name="generic_promotion_code_seq" type="xsd:int"/>
+            <xsd:attribute name="gross_base_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="gross_local_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="group_order" default="0" type="xsd:int"/>
+            <xsd:attribute name="has_been_renewed" default="0" type="xsd:int"/>
+            <xsd:attribute name="has_delivery_charge" default="0" type="xsd:int"/>
+            <xsd:attribute name="has_premium" default="0" type="xsd:int"/>
+            <xsd:attribute name="has_tax" default="0" type="xsd:int"/>
+            <xsd:attribute name="installment_plan_id" type="xsd:int"/>
+            <xsd:attribute name="inventory_id" type="xsd:int"/>
+            <xsd:attribute name="invoice_date" type="xsd:date"/>
+            <xsd:attribute name="invoice_id" type="xsd:int"/>
+            <xsd:attribute name="is_back_ordered" use="required" type="xsd:int"/>
+            <xsd:attribute name="is_complimentary" default="0" type="xsd:int"/>
+            <xsd:attribute name="is_proforma" default="0" type="xsd:int"/>
+            <xsd:attribute name="item_url" type="xsd:string"/>
+            <xsd:attribute name="last_inv_date" type="xsd:date"/>
+            <xsd:attribute name="last_ren_date" type="xsd:date"/>
+            <xsd:attribute name="last_tax_invoice_date" type="xsd:dateTime"/>
+            <xsd:attribute name="manual_disc_amt_base" type="s0:ZZMoney"/>
+            <xsd:attribute name="manual_disc_amt_local" type="s0:ZZMoney"/>
+            <xsd:attribute name="manual_disc_percentage" type="s0:ZZMoney"/>
+            <xsd:attribute name="max_check_out_amt" type="xsd:int"/>
+            <xsd:attribute name="multiline_disc_amount" type="s0:ZZMoney"/>
+            <xsd:attribute name="multiline_disc_eff_seq" type="xsd:int"/>
+            <xsd:attribute name="multiline_discount_schedule" type="xsd:string"/>
+            <xsd:attribute name="n_cal_units_per_seg" type="xsd:int"/>
+            <xsd:attribute name="n_checked_out" type="xsd:int"/>
+            <xsd:attribute name="n_days_graced" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_del_iss_left" type="xsd:int"/>
+            <xsd:attribute name="n_inv_efforts" type="xsd:int"/>
+            <xsd:attribute name="n_issues_left" type="xsd:int"/>
+            <xsd:attribute name="n_items_per_seg" type="xsd:int"/>
+            <xsd:attribute name="n_nonpaid_issues" type="xsd:int"/>
+            <xsd:attribute name="n_remaining_nonpaid_issues" type="xsd:int"/>
+            <xsd:attribute name="n_remaining_paid_issues" type="xsd:int"/>
+            <xsd:attribute name="n_ren_effort" type="xsd:int"/>
+            <xsd:attribute name="n_segments_left" type="xsd:int"/>
+            <xsd:attribute name="n_tax_updates" default="0" type="xsd:int"/>
+            <xsd:attribute name="net_base_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="net_local_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="note_exist" default="0" type="xsd:int"/>
+            <xsd:attribute name="number_volume_sets" type="xsd:int"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_category" type="xsd:string"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_date" type="xsd:dateTime"/>
+            <xsd:attribute name="order_item_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="order_qty" type="xsd:int"/>
+            <xsd:attribute name="order_status" default="0" type="xsd:int"/>
+            <xsd:attribute name="order_type" type="xsd:int"/>
+            <xsd:attribute name="orig_order_qty" type="xsd:int"/>
+            <xsd:attribute name="package_content_seq" type="xsd:int"/>
+            <xsd:attribute name="package_id" type="xsd:int"/>
+            <xsd:attribute name="package_instance" type="xsd:int"/>
+            <xsd:attribute name="payment_account_seq" type="xsd:int"/>
+            <xsd:attribute name="payment_status" type="xsd:int"/>
+            <xsd:attribute name="percent_of_basic_price" type="xsd:int"/>
+            <xsd:attribute name="perpetual_order" default="0" type="xsd:int"/>
+            <xsd:attribute name="pkg_def_id" type="xsd:int"/>
+            <xsd:attribute name="pkg_item_seq" type="xsd:int"/>
+            <xsd:attribute name="prem_to_order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="prepayment_req" use="required" type="xsd:int"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="pub_rotation_id" type="xsd:int"/>
+            <xsd:attribute name="qual_date" type="xsd:date"/>
+            <xsd:attribute name="rate_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="ratecard_seq" type="xsd:int"/>
+            <xsd:attribute name="refund_status" default="0" type="xsd:int"/>
+            <xsd:attribute name="renew_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="renew_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="renewal_category" default="0" type="xsd:int"/>
+            <xsd:attribute name="renewal_def" type="xsd:string"/>
+            <xsd:attribute name="renewal_def_test_seq" type="xsd:int"/>
+            <xsd:attribute name="renewal_order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="renewal_orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="renewal_status" default="0" type="xsd:int"/>
+            <xsd:attribute name="renewed_from_subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="revenue_method" use="required" type="xsd:int"/>
+            <xsd:attribute name="segment_expire_date" type="xsd:date"/>
+            <xsd:attribute name="service_exist" default="0" type="xsd:int"/>
+            <xsd:attribute name="ship_qty" type="xsd:int"/>
+            <xsd:attribute name="shipping_price_list" type="xsd:string"/>
+            <xsd:attribute name="single_issue_id" type="xsd:int"/>
+            <xsd:attribute name="source_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="squal_date" type="xsd:date"/>
+            <xsd:attribute name="start_date" type="xsd:date"/>
+            <xsd:attribute name="start_issue_id" type="xsd:int"/>
+            <xsd:attribute name="stop_issue_id" type="xsd:int"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="subscrip_start_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="subscription_def_id" type="xsd:int"/>
+            <xsd:attribute name="time_unit_options" default="0" type="xsd:int"/>
+            <xsd:attribute name="total_tax_base_amount" type="s0:ZZMoney"/>
+            <xsd:attribute name="total_tax_local_amount" type="s0:ZZMoney"/>
+            <xsd:attribute name="trial_period" type="xsd:int"/>
+            <xsd:attribute name="trial_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="unit_excess" default="0" type="xsd:int"/>
+            <xsd:attribute name="unit_type_id" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="zzaux_autorenewflag" type="xsd:string"/>
+            <xsd:attribute name="zzaux_haven_init" type="xsd:int"/>
+            <xsd:attribute name="zzaux_havensourcecode" type="xsd:string"/>
+            <xsd:attribute name="zzaux_old_order_id" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItemAmtBreak">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_amt_break_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="base_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="effective_date" type="xsd:date"/>
+            <xsd:attribute name="jurisdiction_seq" type="xsd:int"/>
+            <xsd:attribute name="local_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="order_item_break_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="orig_base_amount" type="s0:ZZMoney"/>
+            <xsd:attribute name="state" type="xsd:string"/>
+            <xsd:attribute name="tax_active" default="0" type="xsd:int"/>
+            <xsd:attribute name="tax_delivery" default="0" type="xsd:int"/>
+            <xsd:attribute name="tax_rate" type="s0:ZZMoney"/>
+            <xsd:attribute name="tax_rate_category" type="xsd:string"/>
+            <xsd:attribute name="tax_type" type="xsd:string"/>
+            <xsd:attribute name="tx_incl" type="xsd:hexBinary"/>
+            <xsd:attribute name="vrtx_jurisdiction" type="xsd:string"/>
+            <xsd:attribute name="vrtx_jurisdiction_level" type="xsd:string"/>
+            <xsd:attribute name="vrtx_tax_type" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItemInstall">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="auddis_transaction_code" type="xsd:string"/>
+            <xsd:attribute name="bacs_transaction_code" type="xsd:int"/>
+            <xsd:attribute name="cancel_dd" type="xsd:int"/>
+            <xsd:attribute name="current_year_sent" use="required" type="xsd:int"/>
+            <xsd:attribute name="ddi_accepted" type="xsd:int"/>
+            <xsd:attribute name="ddi_logged" type="xsd:int"/>
+            <xsd:attribute name="debit_account_ref" type="xsd:string"/>
+            <xsd:attribute name="install_auto_payment" use="required" type="xsd:int"/>
+            <xsd:attribute name="install_payment_account_seq" type="xsd:int"/>
+            <xsd:attribute name="mandate_date" type="xsd:date"/>
+            <xsd:attribute name="most_recent_payment_date" type="xsd:date"/>
+            <xsd:attribute name="next_payment_date" type="xsd:date"/>
+            <xsd:attribute name="notice_date" type="xsd:date"/>
+            <xsd:attribute name="payment_end_date" type="xsd:date"/>
+            <xsd:attribute name="payment_start_date" type="xsd:date"/>
+            <xsd:attribute name="pull_day" type="xsd:int"/>
+            <xsd:attribute name="send_notice" use="required" type="xsd:int"/>
+            <xsd:attribute name="year_end_sent" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItemInstallDtl">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="installment_number" use="required" type="xsd:int"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="date_sent" type="xsd:date"/>
+            <xsd:attribute name="install_amount" use="required" type="s0:ZZMoney"/>
+            <xsd:attribute name="payment_seq" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItemNote">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderItemShip">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_ship_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="date_stamp" use="required" type="xsd:int"/>
+            <xsd:attribute name="fifo_seq" type="xsd:int"/>
+            <xsd:attribute name="inventory_id" type="xsd:int"/>
+            <xsd:attribute name="job_id" type="xsd:int"/>
+            <xsd:attribute name="profit_center" type="xsd:string"/>
+            <xsd:attribute name="profit_center_calendar_seq" type="xsd:int"/>
+            <xsd:attribute name="qty_shipped" use="required" type="xsd:int"/>
+            <xsd:attribute name="qty_shipped_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="return_date" type="xsd:date"/>
+            <xsd:attribute name="revenue_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="shipper_ref_nbr" type="xsd:string"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZOrderhdr">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_date" type="xsd:dateTime"/>
+            <xsd:attribute name="po_number" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPayment">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="auth_code" type="xsd:string"/>
+            <xsd:attribute name="auth_date" type="xsd:date"/>
+            <xsd:attribute name="ba_nbr" type="xsd:string"/>
+            <xsd:attribute name="bacs_id" type="xsd:int"/>
+            <xsd:attribute name="base_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="cancel_itm_after_settle_retry" type="xsd:int"/>
+            <xsd:attribute name="card_verification_value" type="xsd:string"/>
+            <xsd:attribute name="cash_realized" default="0" type="xsd:int"/>
+            <xsd:attribute name="cc_cleaned" default="0" type="xsd:int"/>
+            <xsd:attribute name="check_number" type="xsd:string"/>
+            <xsd:attribute name="clear_date" type="xsd:date"/>
+            <xsd:attribute name="commission" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="credit_card_bill_address_seq" type="xsd:int"/>
+            <xsd:attribute name="credit_card_bill_customer_id" type="xsd:int"/>
+            <xsd:attribute name="credit_card_info" type="xsd:string"/>
+            <xsd:attribute name="credit_card_issue_id" type="xsd:string"/>
+            <xsd:attribute name="credit_card_start_date" type="xsd:date"/>
+            <xsd:attribute name="currency" use="required" type="xsd:string"/>
+            <xsd:attribute name="customer_deposit_pay_amt" type="s0:ZZMoney"/>
+            <xsd:attribute name="date_stamp" use="required" type="xsd:int"/>
+            <xsd:attribute name="deposit_transaction" default="0" type="xsd:int"/>
+            <xsd:attribute name="effort_nbr" type="xsd:int"/>
+            <xsd:attribute name="exp_date" type="xsd:date"/>
+            <xsd:attribute name="hosted_secure_token_pmt" use="required" type="xsd:int"/>
+            <xsd:attribute name="ics_bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="id_nbr" type="xsd:string"/>
+            <xsd:attribute name="id_nbr_last_four" type="xsd:string"/>
+            <xsd:attribute name="is_ecommerce" default="0" type="xsd:int"/>
+            <xsd:attribute name="is_recurring" default="0" type="xsd:int"/>
+            <xsd:attribute name="is_reversed" default="0" type="xsd:int"/>
+            <xsd:attribute name="max_settle_retries" type="xsd:int"/>
+            <xsd:attribute name="n_days_between_settle_retries" type="xsd:int"/>
+            <xsd:attribute name="n_settle_retries_left" type="xsd:int"/>
+            <xsd:attribute name="nbr_times_issued" type="xsd:int"/>
+            <xsd:attribute name="needs_memo_post" default="0" type="xsd:int"/>
+            <xsd:attribute name="next_settle_retry_date" type="xsd:date"/>
+            <xsd:attribute name="pay_currency_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pay_exchange_rate" type="s0:ZZMoney"/>
+            <xsd:attribute name="payment_account_seq" type="xsd:int"/>
+            <xsd:attribute name="payment_clear_method" default="0" type="xsd:int"/>
+            <xsd:attribute name="payment_clear_status" type="xsd:int"/>
+            <xsd:attribute name="payment_type" use="required" type="xsd:string"/>
+            <xsd:attribute name="pending_xaction_header_id" type="xsd:int"/>
+            <xsd:attribute name="processing" default="0" type="xsd:int"/>
+            <xsd:attribute name="realize_cash_when" default="0" type="xsd:int"/>
+            <xsd:attribute name="ref_nbr" type="xsd:string"/>
+            <xsd:attribute name="refund_deposit_pay_amt" type="s0:ZZMoney"/>
+            <xsd:attribute name="status_noedit" default="0" type="xsd:int"/>
+            <xsd:attribute name="transaction_reason" type="xsd:string"/>
+            <xsd:attribute name="transaction_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+            <xsd:attribute name="zzaux_haven_init" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPaymentAccount">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="payment_account_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="ba_nbr" type="xsd:string"/>
+            <xsd:attribute name="bank_account_type" type="xsd:string"/>
+            <xsd:attribute name="bill_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="bill_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="branch_title" type="xsd:string"/>
+            <xsd:attribute name="card_verification_value" type="xsd:string"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="credit_card_expire" type="xsd:date"/>
+            <xsd:attribute name="credit_card_info" type="xsd:string"/>
+            <xsd:attribute name="credit_card_issue_id" type="xsd:string"/>
+            <xsd:attribute name="credit_card_start_date" type="xsd:date"/>
+            <xsd:attribute name="dd_bank_description" type="xsd:string"/>
+            <xsd:attribute name="dd_bank_name" type="xsd:string"/>
+            <xsd:attribute name="dd_id_nbr_transposed" type="xsd:string"/>
+            <xsd:attribute name="dd_sorting_code" type="xsd:string"/>
+            <xsd:attribute name="dd_sorting_code_transposed" type="xsd:string"/>
+            <xsd:attribute name="dd_state" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="expiry_notice_sent_date" type="xsd:date"/>
+            <xsd:attribute name="expiry_notice_sent_days_left" type="xsd:int"/>
+            <xsd:attribute name="id_nbr" type="xsd:string"/>
+            <xsd:attribute name="id_nbr_last_four" type="xsd:string"/>
+            <xsd:attribute name="is_active" use="required" type="xsd:int"/>
+            <xsd:attribute name="payment_form" type="xsd:int"/>
+            <xsd:attribute name="payment_type" type="xsd:string"/>
+            <xsd:attribute name="secure_bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="secure_store_id_obtained_date" type="xsd:date"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPaymentNote">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="payment_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPendingXaction">
+            <xsd:attribute name="pending_xaction_header_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pending_xaction_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amount_calculated" type="s0:ZZMoney"/>
+            <xsd:attribute name="change_sub_status" default="0" type="xsd:int"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="customer_add" default="0" type="xsd:int"/>
+            <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="customer_edit" default="0" type="xsd:int"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="group_barcode" type="xsd:string"/>
+            <xsd:attribute name="import_file_offset" type="xsd:int"/>
+            <xsd:attribute name="import_record_number" type="xsd:int"/>
+            <xsd:attribute name="message_string" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="order_add" default="0" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="pay_currency" type="xsd:string"/>
+            <xsd:attribute name="payment_add" default="0" type="xsd:int"/>
+            <xsd:attribute name="processed_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="prospect_add" default="0" type="xsd:int"/>
+            <xsd:attribute name="workflow" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPendingXactionHeader">
+            <xsd:attribute name="pending_xaction_header_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="amt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="amt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="assigned_to_user_code" type="xsd:string"/>
+            <xsd:attribute name="auto_submit" default="0" type="xsd:int"/>
+            <xsd:attribute name="base_amt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_amt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_amt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_amt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_amt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_amt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_pamt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="base_xamt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="batch_template" type="xsd:string"/>
+            <xsd:attribute name="cnt_cust" type="xsd:int"/>
+            <xsd:attribute name="cnt_doc" type="xsd:int"/>
+            <xsd:attribute name="cnt_other" type="xsd:int"/>
+            <xsd:attribute name="cnt_pay" type="xsd:int"/>
+            <xsd:attribute name="cnt_pkg" type="xsd:int"/>
+            <xsd:attribute name="cnt_prod" type="xsd:int"/>
+            <xsd:attribute name="cnt_renew" type="xsd:int"/>
+            <xsd:attribute name="cnt_single" type="xsd:int"/>
+            <xsd:attribute name="cnt_sub" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="creator_user_code" type="xsd:string"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="cust_edit_source_file" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="document_reference_id" type="xsd:int"/>
+            <xsd:attribute name="handling_options" type="xsd:hexBinary"/>
+            <xsd:attribute name="import_profile" type="xsd:string"/>
+            <xsd:attribute name="input_done" default="0" type="xsd:int"/>
+            <xsd:attribute name="kickout_file" type="xsd:string"/>
+            <xsd:attribute name="lookup_by_barcode" use="required" type="xsd:int"/>
+            <xsd:attribute name="memo" type="xsd:string"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="pamt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pamt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pamt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pamt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pamt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pamt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pcnt_cust" type="xsd:int"/>
+            <xsd:attribute name="pcnt_doc" type="xsd:int"/>
+            <xsd:attribute name="pcnt_other" type="xsd:int"/>
+            <xsd:attribute name="pcnt_pay" type="xsd:int"/>
+            <xsd:attribute name="pcnt_pkg" type="xsd:int"/>
+            <xsd:attribute name="pcnt_prod" type="xsd:int"/>
+            <xsd:attribute name="pcnt_renew" type="xsd:int"/>
+            <xsd:attribute name="pcnt_single" type="xsd:int"/>
+            <xsd:attribute name="pcnt_sub" type="xsd:int"/>
+            <xsd:attribute name="processed_date" type="xsd:date"/>
+            <xsd:attribute name="rec_defcash" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="rec_defcred" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="submitted" default="0" type="xsd:int"/>
+            <xsd:attribute name="transaction_source" default="0" type="xsd:int"/>
+            <xsd:attribute name="voucher_id" type="xsd:int"/>
+            <xsd:attribute name="xamt_pay" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xamt_pkg" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xamt_prod" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xamt_renew" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xamt_single" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xamt_sub" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="xcnt_cust" type="xsd:int"/>
+            <xsd:attribute name="xcnt_doc" type="xsd:int"/>
+            <xsd:attribute name="xcnt_other" type="xsd:int"/>
+            <xsd:attribute name="xcnt_pay" type="xsd:int"/>
+            <xsd:attribute name="xcnt_pkg" type="xsd:int"/>
+            <xsd:attribute name="xcnt_prod" type="xsd:int"/>
+            <xsd:attribute name="xcnt_renew" type="xsd:int"/>
+            <xsd:attribute name="xcnt_single" type="xsd:int"/>
+            <xsd:attribute name="xcnt_sub" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZProcess">
+            <xsd:attribute name="process_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="active" use="required" type="xsd:int"/>
+            <xsd:attribute name="all_credit_cards" default="0" type="xsd:int"/>
+            <xsd:attribute name="all_direct_debits" default="0" type="xsd:int"/>
+            <xsd:attribute name="all_installment_plans" default="0" type="xsd:int"/>
+            <xsd:attribute name="all_list_rental_categories" type="xsd:int"/>
+            <xsd:attribute name="all_oc" use="required" type="xsd:int"/>
+            <xsd:attribute name="all_prospect_categories" default="0" type="xsd:int"/>
+            <xsd:attribute name="auddis_type" type="xsd:int"/>
+            <xsd:attribute name="audit_paragraph_ignore_back_is" type="xsd:int"/>
+            <xsd:attribute name="audit_type" type="xsd:int"/>
+            <xsd:attribute name="auto_renew_expire_days" type="xsd:int"/>
+            <xsd:attribute name="auto_renewals" type="xsd:int"/>
+            <xsd:attribute name="bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="batch_template" type="xsd:string"/>
+            <xsd:attribute name="bill_grp_bill_to" default="0" type="xsd:int"/>
+            <xsd:attribute name="bill_grp_currency" default="0" type="xsd:int"/>
+            <xsd:attribute name="bill_grp_def" default="0" type="xsd:int"/>
+            <xsd:attribute name="bill_grp_oclass" default="0" type="xsd:int"/>
+            <xsd:attribute name="bill_grp_order" default="0" type="xsd:int"/>
+            <xsd:attribute name="bills" default="0" type="xsd:int"/>
+            <xsd:attribute name="bundle_threshold" default="1" type="xsd:int"/>
+            <xsd:attribute name="cancel_reason" type="xsd:string"/>
+            <xsd:attribute name="ccard_expire_days" type="xsd:string"/>
+            <xsd:attribute name="cleanup_events" use="required" type="xsd:int"/>
+            <xsd:attribute name="co_mail" default="0" type="xsd:int"/>
+            <xsd:attribute name="customer_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="days_before_end" use="required" type="xsd:int"/>
+            <xsd:attribute name="days_passed_for_pulls" type="xsd:int"/>
+            <xsd:attribute name="default_job_priority" default="1" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="do_mass_kill" type="xsd:int"/>
+            <xsd:attribute name="do_mass_suspend" type="xsd:int"/>
+            <xsd:attribute name="driver_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="extract" type="xsd:string"/>
+            <xsd:attribute name="fatal_email" type="xsd:string"/>
+            <xsd:attribute name="from_email_address" type="xsd:string"/>
+            <xsd:attribute name="generate_renew_offers" type="xsd:int"/>
+            <xsd:attribute name="grace_current" default="0" type="xsd:int"/>
+            <xsd:attribute name="grace_new" default="0" type="xsd:int"/>
+            <xsd:attribute name="ics_bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="incl_audit_paragraph_reports" default="0" type="xsd:int"/>
+            <xsd:attribute name="incl_pkg_members" default="0" type="xsd:int"/>
+            <xsd:attribute name="includes_proformas" use="required" type="xsd:int"/>
+            <xsd:attribute name="inserts" default="0" type="xsd:int"/>
+            <xsd:attribute name="installment_bills" default="0" type="xsd:int"/>
+            <xsd:attribute name="interval_unit" default="0" type="xsd:int"/>
+            <xsd:attribute name="inv_serve_label" use="required" type="xsd:int"/>
+            <xsd:attribute name="items_per_request" type="xsd:int"/>
+            <xsd:attribute name="job_completion_email_address" type="xsd:string"/>
+            <xsd:attribute name="job_done_email" type="xsd:string"/>
+            <xsd:attribute name="label_group" type="xsd:string"/>
+            <xsd:attribute name="label_keyline" type="xsd:string"/>
+            <xsd:attribute name="label_length" type="xsd:int"/>
+            <xsd:attribute name="leave_dd_account_number_plain" default="0" type="xsd:int"/>
+            <xsd:attribute name="manual_review_fulfillment" use="required" type="xsd:int"/>
+            <xsd:attribute name="mass_kill_interval" type="xsd:int"/>
+            <xsd:attribute name="mass_suspend_interval" type="xsd:int"/>
+            <xsd:attribute name="multiple_per_customer" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_interval_units" default="1" type="xsd:int"/>
+            <xsd:attribute name="no_connect_email" type="xsd:string"/>
+            <xsd:attribute name="notice_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="notification_bits" type="xsd:int"/>
+            <xsd:attribute name="nth_def" type="xsd:string"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="on_hold_email" type="xsd:string"/>
+            <xsd:attribute name="output_ready_email" type="xsd:string"/>
+            <xsd:attribute name="output_sort" type="xsd:string"/>
+            <xsd:attribute name="pick_list" default="0" type="xsd:int"/>
+            <xsd:attribute name="priority_sort" type="xsd:string"/>
+            <xsd:attribute name="process_deposit_payment" use="required" type="xsd:int"/>
+            <xsd:attribute name="process_oc_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="process_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="promotions" default="0" type="xsd:int"/>
+            <xsd:attribute name="queue" type="xsd:string"/>
+            <xsd:attribute name="recon_work_dir" type="xsd:string"/>
+            <xsd:attribute name="ren_grp_currency" default="0" type="xsd:int"/>
+            <xsd:attribute name="ren_grp_def" default="0" type="xsd:int"/>
+            <xsd:attribute name="ren_grp_oclass" default="0" type="xsd:int"/>
+            <xsd:attribute name="ren_grp_order" default="0" type="xsd:int"/>
+            <xsd:attribute name="ren_grp_ren_to" default="0" type="xsd:int"/>
+            <xsd:attribute name="renewals" default="0" type="xsd:int"/>
+            <xsd:attribute name="repeating_type" default="0" type="xsd:int"/>
+            <xsd:attribute name="requal" default="0" type="xsd:int"/>
+            <xsd:attribute name="resend_notice" use="required" type="xsd:int"/>
+            <xsd:attribute name="review_ready_email" type="xsd:string"/>
+            <xsd:attribute name="run_icverify" use="required" type="xsd:int"/>
+            <xsd:attribute name="schedule_payment_days" type="xsd:int"/>
+            <xsd:attribute name="skip_manual_pay_response" type="xsd:int"/>
+            <xsd:attribute name="splits" default="0" type="xsd:int"/>
+            <xsd:attribute name="sql_script" type="xsd:string"/>
+            <xsd:attribute name="unpaid_resubmit" default="0" type="xsd:int"/>
+            <xsd:attribute name="upd_recon_tables" use="required" type="xsd:int"/>
+            <xsd:attribute name="validate_adds" default="0" type="xsd:int"/>
+            <xsd:attribute name="volume_group_id" type="xsd:int"/>
+            <xsd:attribute name="warning_email" type="xsd:string"/>
+            <xsd:attribute name="write_recon_dtl" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPkgContent">
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_content_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="item_order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="one_time_only" use="required" type="xsd:int"/>
+            <xsd:attribute name="prepayment_option" use="required" type="xsd:int"/>
+            <xsd:attribute name="qty" type="xsd:int"/>
+            <xsd:attribute name="required" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPkgDef">
+            <xsd:attribute name="pkg_def_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="active" use="required" type="xsd:int"/>
+            <xsd:attribute name="auxiliary_1" type="xsd:string"/>
+            <xsd:attribute name="auxiliary_2" type="xsd:string"/>
+            <xsd:attribute name="calendar_unit" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="multiline_discount_schedule" type="xsd:string"/>
+            <xsd:attribute name="n_calendar_units" use="required" type="xsd:int"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_contents_together" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_def" type="xsd:string"/>
+            <xsd:attribute name="pkg_price" use="required" type="s0:ZZMoney"/>
+            <xsd:attribute name="pkg_price_method" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_start_match_order_date" use="required" type="xsd:int"/>
+            <xsd:attribute name="qty_discount_schedule" type="xsd:string"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="renewal_card_id" type="xsd:int"/>
+            <xsd:attribute name="revenue_percentage_option" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscriber_site_allowance_type" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZPkgDefContent">
+            <xsd:attribute name="pkg_def_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_content_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="item_price" type="s0:ZZMoney"/>
+            <xsd:attribute name="pkg_item_price_method" use="required" type="xsd:int"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="revenue_percent" type="s0:ZZMoney"/>
+            <xsd:attribute name="subscription_def_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZProduct">
+            <xsd:attribute name="product_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="allow_on_internet" use="required" type="xsd:int"/>
+            <xsd:attribute name="auxiliary_1" type="xsd:string"/>
+            <xsd:attribute name="auxiliary_2" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="image_url" type="xsd:string"/>
+            <xsd:attribute name="inventory_id" type="xsd:int"/>
+            <xsd:attribute name="item_url" type="xsd:string"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="price" type="s0:ZZMoney"/>
+            <xsd:attribute name="product" use="required" type="xsd:string"/>
+            <xsd:attribute name="product_color" type="xsd:string"/>
+            <xsd:attribute name="product_size" type="xsd:string"/>
+            <xsd:attribute name="product_style" type="xsd:string"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="tag_line" type="xsd:string"/>
+            <xsd:attribute name="taxonomy" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZQuickOrderContent">
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="quick_order_content_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="item_order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pkg_def_id" type="xsd:int"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="qty" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscription_def_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZRequestLog">
+            <xsd:attribute name="request_log_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="client_machine_name" use="required" type="xsd:string"/>
+            <xsd:attribute name="edit_trail" use="required" type="xsd:string"/>
+            <xsd:attribute name="expanded_info" type="xsd:string"/>
+            <xsd:attribute name="request" use="required" type="xsd:string"/>
+            <xsd:attribute name="request_date_time" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="response" use="required" type="xsd:string"/>
+            <xsd:attribute name="server_machine_name" use="required" type="xsd:string"/>
+            <xsd:attribute name="status_change_date_time" type="xsd:dateTime"/>
+            <xsd:attribute name="user_definable_status" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZService">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="service_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="cause_code" type="xsd:string"/>
+            <xsd:attribute name="claim_ref_nbr" type="xsd:string"/>
+            <xsd:attribute name="complaint_code" type="xsd:string"/>
+            <xsd:attribute name="complaint_date" type="xsd:date"/>
+            <xsd:attribute name="followup_date" type="xsd:date"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="service_code" type="xsd:string"/>
+            <xsd:attribute name="service_date" type="xsd:date"/>
+            <xsd:attribute name="service_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZServiceNote">
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="service_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="service_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZSubscrip">
+            <xsd:attribute name="subscrip_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_name_change" default="0" type="xsd:int"/>
+            <xsd:attribute name="audit_title_change" default="0" type="xsd:int"/>
+            <xsd:attribute name="backlabels" type="xsd:hexBinary"/>
+            <xsd:attribute name="cancel_date" type="xsd:dateTime"/>
+            <xsd:attribute name="cancel_reason" type="xsd:string"/>
+            <xsd:attribute name="customer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="is_pkg" type="xsd:int"/>
+            <xsd:attribute name="last_demog_update_date" type="xsd:date"/>
+            <xsd:attribute name="last_reader_service_date" type="xsd:date"/>
+            <xsd:attribute name="n_reader_service_inq" type="xsd:int"/>
+            <xsd:attribute name="n_times_sub_renewed" default="0" type="xsd:int"/>
+            <xsd:attribute name="n_total_issues_left" type="xsd:int"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="orig_order_date" type="xsd:date"/>
+            <xsd:attribute name="source_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="start_issue_id" type="xsd:int"/>
+            <xsd:attribute name="stop_issue_id" type="xsd:int"/>
+            <xsd:attribute name="sub_out" type="xsd:hexBinary"/>
+            <xsd:attribute name="title" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZSubscripNote">
+            <xsd:attribute name="subscrip_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscrip_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZSubscriptionDef">
+            <xsd:attribute name="subscription_def_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="allow_on_internet" use="required" type="xsd:int"/>
+            <xsd:attribute name="audit_n_grace_issues_allowed" type="xsd:int"/>
+            <xsd:attribute name="auxiliary_1" type="xsd:string"/>
+            <xsd:attribute name="auxiliary_2" type="xsd:string"/>
+            <xsd:attribute name="cancel_policy_id" type="xsd:int"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="edition" type="xsd:string"/>
+            <xsd:attribute name="expire_gap" use="required" type="xsd:int"/>
+            <xsd:attribute name="extfree_qty" type="xsd:int"/>
+            <xsd:attribute name="forced_expire_month" use="required" type="xsd:int"/>
+            <xsd:attribute name="issn" type="xsd:string"/>
+            <xsd:attribute name="logical_start" use="required" type="xsd:int"/>
+            <xsd:attribute name="media" type="xsd:string"/>
+            <xsd:attribute name="oc_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_code_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="pub_rotation_id" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="renewal_card_id" type="xsd:int"/>
+            <xsd:attribute name="subscription_category_id" type="xsd:int"/>
+            <xsd:attribute name="subscription_def" use="required" type="xsd:string"/>
+            <xsd:attribute name="tag_line" type="xsd:string"/>
+            <xsd:attribute name="term_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="upgrade_downgrade_value" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZSuspension">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="suspension_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="begin_issue_id" type="xsd:int"/>
+            <xsd:attribute name="creation_date" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="end_issue_id" type="xsd:int"/>
+            <xsd:attribute name="n_backlabels" type="xsd:int"/>
+            <xsd:attribute name="old_order_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="rollback_begin_issue_id" type="xsd:int"/>
+            <xsd:attribute name="rollback_end_issue_id" type="xsd:int"/>
+            <xsd:attribute name="rollback_job_id" type="xsd:int"/>
+            <xsd:attribute name="rollback_n_backlabels" type="xsd:int"/>
+            <xsd:attribute name="rollback_old_order_status" type="xsd:int"/>
+            <xsd:attribute name="rollback_serve_backlabels" type="xsd:int"/>
+            <xsd:attribute name="rollback_suspend_from_date" type="xsd:date"/>
+            <xsd:attribute name="rollback_suspend_to_date" type="xsd:date"/>
+            <xsd:attribute name="rollback_suspension_status" type="xsd:int"/>
+            <xsd:attribute name="serve_backlabels" use="required" type="xsd:int"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="suspend_from_date" use="required" type="xsd:date"/>
+            <xsd:attribute name="suspend_to_date" type="xsd:date"/>
+            <xsd:attribute name="suspended_order_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="suspension_status" default="0" type="xsd:int"/>
+            <xsd:attribute name="user_code" use="required" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZSuspensionNote">
+            <xsd:attribute name="orderhdr_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="order_item_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="suspension_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="suspension_note_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="creation_date" type="xsd:dateTime"/>
+            <xsd:attribute name="note_field" type="xsd:string"/>
+            <xsd:attribute name="user_code" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkBillAmount">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="amount_type" use="required" type="xsd:int"/>
+            <xsd:attribute name="com_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="del_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="order_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="tax_amount" default="0.0" type="s0:ZZMoney"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkPromotion">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_promotion_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="promotion_card_id" type="xsd:int"/>
+            <xsd:attribute name="promotion_def" type="xsd:string"/>
+            <xsd:attribute name="promotion_def_test_seq" type="xsd:int"/>
+            <xsd:attribute name="promotion_effort_number" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="source_code" type="xsd:string"/>
+            <xsd:attribute name="source_code_id" type="xsd:int"/>
+            <xsd:attribute name="source_format" type="xsd:string"/>
+            <xsd:attribute name="suppress_promotion_output" default="0" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkPromotionOffer">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_promotion_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_promotion_offer_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+            <xsd:attribute name="disc_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_card_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="multiline_disc_eff_seq" type="xsd:int"/>
+            <xsd:attribute name="multiline_discount_schedule" type="xsd:string"/>
+            <xsd:attribute name="offer_base_order" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_code" type="xsd:string"/>
+            <xsd:attribute name="offer_effective_date" type="xsd:date"/>
+            <xsd:attribute name="offer_local_order" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_local_tax" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="order_code_id" type="xsd:int"/>
+            <xsd:attribute name="pkg_def_id" type="xsd:int"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="rate_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="ratecard_seq" type="xsd:int"/>
+            <xsd:attribute name="subscription_def_id" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkRenewalOffer">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_renewal_offer_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="disc_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_card_seq" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="effective_is_expire_date" type="xsd:int"/>
+            <xsd:attribute name="job_ren_offer_detail_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="job_ren_offer_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="multiline_disc_eff_seq" type="xsd:int"/>
+            <xsd:attribute name="multiline_discount_schedule" type="xsd:string"/>
+            <xsd:attribute name="offer_base_commission" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_base_order" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_effective_date" type="xsd:date"/>
+            <xsd:attribute name="offer_local_commission" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_local_currency" type="xsd:string"/>
+            <xsd:attribute name="offer_local_delivery" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_local_order" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="offer_local_tax" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="rate_class_effective_seq" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="ratecard_seq" type="xsd:int"/>
+            <xsd:attribute name="renewal_group_barcode" type="xsd:string"/>
+            <xsd:attribute name="renewal_item_barcode" type="xsd:string"/>
+            <xsd:attribute name="renewal_order_qty" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkTable">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="added" default="0" type="xsd:int"/>
+            <xsd:attribute name="audit_name_title_id" type="xsd:int"/>
+            <xsd:attribute name="audit_qual_source_id" type="xsd:int"/>
+            <xsd:attribute name="audit_sales_channel_id" type="xsd:int"/>
+            <xsd:attribute name="audit_subscription_type_id" type="xsd:int"/>
+            <xsd:attribute name="billing_code" type="xsd:string"/>
+            <xsd:attribute name="billing_def" type="xsd:string"/>
+            <xsd:attribute name="billing_def_test_seq" type="xsd:int"/>
+            <xsd:attribute name="billing_effort_number" type="xsd:int"/>
+            <xsd:attribute name="billing_group_barcode" type="xsd:string"/>
+            <xsd:attribute name="billing_installment_number" type="xsd:int"/>
+            <xsd:attribute name="billing_item_barcode" type="xsd:string"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="customer_login_id" type="xsd:int"/>
+            <xsd:attribute name="discount_class_id" type="xsd:int"/>
+            <xsd:attribute name="duration" type="xsd:int"/>
+            <xsd:attribute name="email" type="xsd:string"/>
+            <xsd:attribute name="enumeration" type="xsd:string"/>
+            <xsd:attribute name="event_queue_id" type="xsd:int"/>
+            <xsd:attribute name="has_tax" type="xsd:int"/>
+            <xsd:attribute name="insert_bits" type="xsd:hexBinary"/>
+            <xsd:attribute name="inventory_id" type="xsd:int"/>
+            <xsd:attribute name="invoice_id" type="xsd:int"/>
+            <xsd:attribute name="invoice_number" type="xsd:int"/>
+            <xsd:attribute name="issue_date" type="xsd:date"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="job_ren_offer_id" type="xsd:int"/>
+            <xsd:attribute name="label1" type="xsd:string"/>
+            <xsd:attribute name="label10" type="xsd:string"/>
+            <xsd:attribute name="label2" type="xsd:string"/>
+            <xsd:attribute name="label3" type="xsd:string"/>
+            <xsd:attribute name="label4" type="xsd:string"/>
+            <xsd:attribute name="label5" type="xsd:string"/>
+            <xsd:attribute name="label6" type="xsd:string"/>
+            <xsd:attribute name="label7" type="xsd:string"/>
+            <xsd:attribute name="label8" type="xsd:string"/>
+            <xsd:attribute name="label9" type="xsd:string"/>
+            <xsd:attribute name="new_audit_qual_category" type="xsd:int"/>
+            <xsd:attribute name="new_n_deferred_issues_left" type="xsd:int"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="old_audit_qual_category" type="xsd:int"/>
+            <xsd:attribute name="order_date" type="xsd:date"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="other_label1" type="xsd:string"/>
+            <xsd:attribute name="other_label10" type="xsd:string"/>
+            <xsd:attribute name="other_label2" type="xsd:string"/>
+            <xsd:attribute name="other_label3" type="xsd:string"/>
+            <xsd:attribute name="other_label4" type="xsd:string"/>
+            <xsd:attribute name="other_label5" type="xsd:string"/>
+            <xsd:attribute name="other_label6" type="xsd:string"/>
+            <xsd:attribute name="other_label7" type="xsd:string"/>
+            <xsd:attribute name="other_label8" type="xsd:string"/>
+            <xsd:attribute name="other_label9" type="xsd:string"/>
+            <xsd:attribute name="package_id" type="xsd:int"/>
+            <xsd:attribute name="pay_amount" default="0.0" type="s0:ZZMoney"/>
+            <xsd:attribute name="pay_auth_code" type="xsd:string"/>
+            <xsd:attribute name="pay_auth_date" type="xsd:date"/>
+            <xsd:attribute name="pay_check_number" type="xsd:string"/>
+            <xsd:attribute name="pay_clear_date" type="xsd:date"/>
+            <xsd:attribute name="pay_clear_status" type="xsd:int"/>
+            <xsd:attribute name="pay_credit_card_info" type="xsd:string"/>
+            <xsd:attribute name="pay_exp_date" type="xsd:date"/>
+            <xsd:attribute name="pay_id_nbr" type="xsd:string"/>
+            <xsd:attribute name="pay_ref_nbr" type="xsd:string"/>
+            <xsd:attribute name="pay_status_reason" type="xsd:string"/>
+            <xsd:attribute name="payment_account_seq" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" type="xsd:int"/>
+            <xsd:attribute name="percent_of_basic_price" type="xsd:int"/>
+            <xsd:attribute name="priority_sort_string" type="xsd:string"/>
+            <xsd:attribute name="product_color" type="xsd:string"/>
+            <xsd:attribute name="product_id" type="xsd:int"/>
+            <xsd:attribute name="product_size" type="xsd:string"/>
+            <xsd:attribute name="product_style" type="xsd:string"/>
+            <xsd:attribute name="promotion_bits" type="xsd:hexBinary"/>
+            <xsd:attribute name="qual_date" type="xsd:date"/>
+            <xsd:attribute name="quantity" type="xsd:int"/>
+            <xsd:attribute name="quantity_backordered" type="xsd:int"/>
+            <xsd:attribute name="rate_class_id" type="xsd:int"/>
+            <xsd:attribute name="refund_via_process" type="xsd:int"/>
+            <xsd:attribute name="renewal_card_id" type="xsd:int"/>
+            <xsd:attribute name="renewal_def" type="xsd:string"/>
+            <xsd:attribute name="renewal_def_test_seq" type="xsd:int"/>
+            <xsd:attribute name="renewal_effort_number" type="xsd:int"/>
+            <xsd:attribute name="revenue_method" type="xsd:int"/>
+            <xsd:attribute name="selected" default="1" type="xsd:int"/>
+            <xsd:attribute name="send_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="send_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="service_seq" type="xsd:int"/>
+            <xsd:attribute name="sort_string" type="xsd:string"/>
+            <xsd:attribute name="source_code" type="xsd:string"/>
+            <xsd:attribute name="source_code_id" type="xsd:int"/>
+            <xsd:attribute name="source_format" type="xsd:string"/>
+            <xsd:attribute name="source_job_id" type="xsd:int"/>
+            <xsd:attribute name="source_work_table_seq" type="xsd:int"/>
+            <xsd:attribute name="split_value" type="xsd:string"/>
+            <xsd:attribute name="squal_date" type="xsd:date"/>
+            <xsd:attribute name="state" type="xsd:string"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="suppress_billing_output" default="0" type="xsd:int"/>
+            <xsd:attribute name="suppress_email" use="required" type="xsd:int"/>
+            <xsd:attribute name="suppress_renewal_output" default="0" type="xsd:int"/>
+            <xsd:attribute name="suspension_seq" type="xsd:int"/>
+            <xsd:attribute name="taxonomy" type="xsd:string"/>
+            <xsd:attribute name="transaction_event" use="required" type="xsd:int"/>
+            <xsd:attribute name="undeliverable" default="0" type="xsd:int"/>
+            <xsd:attribute name="update_mask" type="xsd:hexBinary"/>
+            <xsd:attribute name="was_company" default="0" type="xsd:int"/>
+            <xsd:attribute name="was_name" default="0" type="xsd:int"/>
+            <xsd:attribute name="was_title" default="0" type="xsd:int"/>
+            <xsd:attribute name="work_record_status" use="required" type="xsd:int"/>
+            <xsd:attribute name="zip" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkTableErrorLog">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="status" use="required" type="xsd:int"/>
+            <xsd:attribute name="log_time" use="required" type="xsd:dateTime"/>
+            <xsd:attribute name="message_string" type="xsd:string"/>
+            <xsd:attribute name="step_name" type="xsd:string"/>
+         </xsd:complexType>
+         <xsd:complexType name="ZZWorkTablePayment">
+            <xsd:attribute name="job_id" use="required" type="xsd:int"/>
+            <xsd:attribute name="work_table_seq" use="required" type="xsd:int"/>
+            <xsd:attribute name="account_reference" type="xsd:string"/>
+            <xsd:attribute name="auddis_transaction_code" type="xsd:string"/>
+            <xsd:attribute name="avs_address" type="xsd:string"/>
+            <xsd:attribute name="avs_zip" type="xsd:string"/>
+            <xsd:attribute name="currency" type="xsd:string"/>
+            <xsd:attribute name="customer_id" type="xsd:int"/>
+            <xsd:attribute name="dd_account_name" type="xsd:string"/>
+            <xsd:attribute name="dd_account_number" type="xsd:string"/>
+            <xsd:attribute name="dd_account_number_plain" type="xsd:string"/>
+            <xsd:attribute name="dd_bank_code" type="xsd:string"/>
+            <xsd:attribute name="dd_bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="dd_payment_type" type="xsd:string"/>
+            <xsd:attribute name="dd_sorting_code" type="xsd:string"/>
+            <xsd:attribute name="dd_transaction_code" type="xsd:int"/>
+            <xsd:attribute name="icv_bank_def_id" type="xsd:int"/>
+            <xsd:attribute name="issue_id" type="xsd:int"/>
+            <xsd:attribute name="oc_id" type="xsd:int"/>
+            <xsd:attribute name="order_date" type="xsd:date"/>
+            <xsd:attribute name="order_item_seq" type="xsd:int"/>
+            <xsd:attribute name="orderhdr_id" type="xsd:int"/>
+            <xsd:attribute name="original_payment_clear_status" type="xsd:int"/>
+            <xsd:attribute name="pay_amount" type="s0:ZZMoney"/>
+            <xsd:attribute name="pay_auth_code" type="xsd:string"/>
+            <xsd:attribute name="pay_auth_date" type="xsd:date"/>
+            <xsd:attribute name="pay_check_number" type="xsd:string"/>
+            <xsd:attribute name="pay_clear_date" type="xsd:date"/>
+            <xsd:attribute name="pay_credit_card_info" type="xsd:string"/>
+            <xsd:attribute name="pay_exp_month" type="xsd:int"/>
+            <xsd:attribute name="pay_exp_year" type="xsd:string"/>
+            <xsd:attribute name="pay_id_number" type="xsd:string"/>
+            <xsd:attribute name="pay_ref_number" type="xsd:string"/>
+            <xsd:attribute name="pay_status_reason" type="xsd:string"/>
+            <xsd:attribute name="payment_clear_status" type="xsd:int"/>
+            <xsd:attribute name="payment_seq" type="xsd:int"/>
+            <xsd:attribute name="priority_sort_string" type="xsd:string"/>
+            <xsd:attribute name="refund_via_process" type="xsd:int"/>
+            <xsd:attribute name="selected" default="1" type="xsd:int"/>
+            <xsd:attribute name="send_to_customer_address_seq" type="xsd:int"/>
+            <xsd:attribute name="send_to_customer_id" type="xsd:int"/>
+            <xsd:attribute name="sort_string" type="xsd:string"/>
+            <xsd:attribute name="state" type="xsd:string"/>
+            <xsd:attribute name="subscrip_id" type="xsd:int"/>
+            <xsd:attribute name="work_record_status" use="required" type="xsd:int"/>
+         </xsd:complexType>
+         <xsd:element name="td_customer">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZCustomer">
+                     <xsd:sequence>
+                        <xsd:element name="td_service" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element name="td_customer_login_history" minOccurs="0" maxOccurs="unbounded">
+                           <xsd:complexType>
+                              <xsd:sequence>
+                              </xsd:sequence>
+                              <xsd:attribute name="customer_login_id" type="xsd:int"/>
+                              <xsd:attribute name="login_time" type="xsd:dateTime"/>
+                              <xsd:attribute name="login_validate_status" type="xsd:int"/>
+                              <xsd:attribute name="ip_address" type="xsd:string"/>
+                              <xsd:attribute name="login_validate_status_descr" type="xsd:string"/>
+                           </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="td_ip_address" type="s0:ZZIpAddress" minOccurs="0" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attribute name="customer_address_seq" type="xsd:int"/>
+                     <xsd:attribute name="address1" type="xsd:string"/>
+                     <xsd:attribute name="address2" type="xsd:string"/>
+                     <xsd:attribute name="address3" type="xsd:string"/>
+                     <xsd:attribute name="address_status" type="xsd:string"/>
+                     <xsd:attribute name="address_type" type="xsd:string"/>
+                     <xsd:attribute name="carrier" type="xsd:string"/>
+                     <xsd:attribute name="cass_date" type="xsd:int"/>
+                     <xsd:attribute name="city" type="xsd:string"/>
+                     <!--xsd:attribute name="address_company" type="xsd:string"/-->
+                     <xsd:attribute name="county" type="xsd:string"/>
+                     <xsd:attribute name="delivery_point" type="xsd:string"/>
+                     <xsd:attribute name="department" type="xsd:string"/>
+                     <xsd:attribute name="dp_barcode" type="xsd:string"/>
+                     <xsd:attribute name="eighthundred" type="xsd:string"/>
+                     <xsd:attribute name="faxnbr" type="xsd:string"/>
+                     <xsd:attribute name="lot_nbr" type="xsd:string"/>
+                     <xsd:attribute name="mailstop" type="xsd:string"/>
+                     <xsd:attribute name="phone" type="xsd:string"/>
+                     <xsd:attribute name="special_tax_id" default="0" type="xsd:int"/>
+                     <xsd:attribute name="state" type="xsd:string"/>
+                     <xsd:attribute name="tax_id_number" type="xsd:string"/>
+                     <xsd:attribute name="zip" type="xsd:string"/>
+                     <xsd:attribute name="temporary_password" type="xsd:string"/>
+                     <xsd:attribute name="customer_login_id" use="required" type="xsd:int"/>
+                     <xsd:attribute name="customer_login_question_id" type="xsd:int"/>
+                     <xsd:attribute name="hint" type="xsd:string"/>
+                     <xsd:attribute name="invalid_auth_attempts" type="xsd:int"/>
+                     <xsd:attribute name="is_primary_login" default="1" type="xsd:int"/>
+                     <xsd:attribute name="locked_out" type="xsd:int"/>
+                     <xsd:attribute name="lockout_start" type="xsd:dateTime"/>
+                     <xsd:attribute name="login" type="xsd:string"/>
+                     <xsd:attribute name="pending_xaction_header_id" type="xsd:int"/>
+                     <xsd:attribute name="pending_xaction_seq" type="xsd:int"/>
+                     <xsd:attribute name="response" type="xsd:string"/>
+                     <xsd:attribute name="salt" type="xsd:int"/>
+                     <xsd:attribute name="credit_status_descr" type="xsd:string"/>
+                     <xsd:attribute name="customer_category_descr" type="xsd:string"/>
+                     <xsd:attribute name="list_rental_category_descr" type="xsd:string"/>
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="oc_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="sales_representative_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="address_status_descr" type="xsd:string"/>
+                     <xsd:attribute name="address_type_descr" type="xsd:string"/>
+                     <xsd:attribute name="state_descr" type="xsd:string"/>
+                     <xsd:attribute name="audit_company_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="audit_county_descr" type="xsd:string"/>
+                     <xsd:attribute name="change_type_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:attributeGroup name="amounts">
+            <xsd:attribute name="price" type="s0:ZZMoney"/>
+            <xsd:attribute name="tax" type="s0:ZZMoney"/>
+            <xsd:attribute name="delivery" type="s0:ZZMoney"/>
+            <xsd:attribute name="comm" type="s0:ZZMoney"/>
+            <xsd:attribute name="total" type="s0:ZZMoney"/>
+         </xsd:attributeGroup>
+         <xsd:attributeGroup name="amounts_paid">
+            <xsd:attribute name="price_paid" type="s0:ZZMoney"/>
+            <xsd:attribute name="tax_paid" type="s0:ZZMoney"/>
+            <xsd:attribute name="delivery_paid" type="s0:ZZMoney"/>
+            <xsd:attribute name="comm_paid" type="s0:ZZMoney"/>
+            <xsd:attribute name="total_paid" type="s0:ZZMoney"/>
+         </xsd:attributeGroup>
+         <xsd:complexType name="ZZTDOrderItem">
+            <xsd:complexContent>
+               <xsd:extension base="s0:ZZOrderItem">
+                  <xsd:attribute name="order_code_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                  <xsd:attribute name="currency_descr" type="xsd:string"/>
+                  <xsd:attribute name="delivery_method_descr" type="xsd:string"/>
+                  <xsd:attribute name="source_code_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="order_category_descr" type="xsd:string"/>
+                  <xsd:attribute name="cancel_reason_descr" type="xsd:string"/>
+                  <xsd:attribute name="audit_qual_source_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="audit_subscription_type_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="audit_name_title_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="audit_sales_channel_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="discount_class_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="oc_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="rate_class_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="agency_customer_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="distribution_method_descr" type="xsd:string"/>
+                  <xsd:attribute name="billing_def_descr" type="xsd:string"/>
+                  <xsd:attribute name="renewal_def_descr" type="xsd:string"/>
+                  <xsd:attribute name="unit_type_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="ex_rate_class_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="pub_rotation_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="subscription_def_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="product_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="start_issue_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="stop_issue_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="single_issue_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="pkg_def_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="deal_id_descr" type="xsd:string"/>
+                  <xsd:attribute name="order_status_descr" type="xsd:string"/>
+                  <xsd:attribute name="payment_status_descr" type="xsd:string"/>
+                  <xsd:attribute name="audit_qual_category_descr" type="xsd:string"/>
+                  <xsd:attribute name="auto_payment_descr" type="xsd:string"/>
+                  <xsd:attribute name="billing_type_descr" type="xsd:string"/>
+                  <xsd:attribute name="calendar_unit_descr" type="xsd:string"/>
+                  <xsd:attribute name="order_item_type_descr" type="xsd:string"/>
+                  <xsd:attribute name="order_type_descr" type="xsd:string"/>
+                  <xsd:attribute name="refund_status_descr" type="xsd:string"/>
+                  <xsd:attribute name="renewal_category_descr" type="xsd:string"/>
+                  <xsd:attribute name="renewal_status_descr" type="xsd:string"/>
+                  <xsd:attribute name="revenue_method_descr" type="xsd:string"/>
+                  <xsd:attribute name="subscrip_start_type_descr" type="xsd:string"/>
+                  <xsd:attribute name="trial_type_descr" type="xsd:string"/>
+                  <xsd:attribute name="unit_excess_descr" type="xsd:string"/>
+               </xsd:extension>
+            </xsd:complexContent>
+         </xsd:complexType>
+         <xsd:element name="td_premium" type="s0:ZZTDOrderItem"/>
+         <xsd:element name="td_item_ship">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZOrderItemShip">
+                     <xsd:attribute name="date_stamp_descr" type="xsd:string"/>
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_item">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZTDOrderItem">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_premium" minOccurs="0"/>
+                        <xsd:element ref="s0:td_suspension" minOccurs="0"/>
+                        <xsd:element ref="s0:td_item_ship" minOccurs="0" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="ren_card_order_code">
+            <xsd:complexType>
+               <xsd:attribute name="renewal_card_id" type="xsd:int" use="required"/>
+               <xsd:attribute name="renewal_card_from_effort" type="xsd:int" use="required"/>
+               <xsd:attribute name="ren_card_order_code_seq" type="xsd:int" use="required"/>
+               <xsd:attribute name="description" type="xsd:string"/>
+               <xsd:attribute name="order_code_id" type="xsd:int" use="required"/>
+               <xsd:attribute name="rate_class_id" type="xsd:int"/>
+               <xsd:attribute name="discount_class_id" type="xsd:int"/>
+               <xsd:attribute name="source_code_id" type="xsd:int"/>
+               <xsd:attribute name="subscription_def_id" type="xsd:int"/>
+               <xsd:attribute name="pkg_def_id" type="xsd:int"/>
+               <xsd:attribute name="term_id" type="xsd:int"/>
+               <xsd:attribute name="default_offer" default="0" type="xsd:boolean"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_renewal_offer">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZWorkRenewalOffer">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:ren_card_order_code" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts"/>
+                     <xsd:attribute name="discount_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="rate_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="currency_descr" type="xsd:string"/>
+                     <xsd:attribute name="job_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_billing_amount">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZWorkBillAmount">
+                     <xsd:attributeGroup ref="s0:amounts"/>
+                     <xsd:attribute name="amount_type_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_promotion_offer">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZWorkPromotionOffer">
+                     <xsd:attribute name="discount_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="rate_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="order_code_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="product_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="subscription_def_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="currency_descr" type="xsd:string"/>
+                     <xsd:attribute name="pkg_def_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="multiline_discount_schedule_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_promotion">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZWorkPromotion">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_promotion_offer" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attribute name="job_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="source_code_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="promotion_def_descr" type="xsd:string"/>
+                     <xsd:attribute name="rate_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="promotion_card_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="discount_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="oc_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_package">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZTDOrderItem">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_item" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_order">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZOrderhdr">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_item" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element ref="s0:td_package" minOccurs="0" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_item_paid_for">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZTDOrderItem">
+                     <xsd:sequence>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts_paid"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_payment">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZPayment">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_item_paid_for" minOccurs="0" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attributeGroup ref="s0:amounts_paid"/>
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="currency_descr" type="xsd:string"/>
+                     <xsd:attribute name="payment_type_descr" type="xsd:string"/>
+                     <xsd:attribute name="transaction_reason_descr" type="xsd:string"/>
+                     <xsd:attribute name="pending_xaction_header_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="ics_bank_def_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="deposit_transaction_descr" type="xsd:string"/>
+                     <xsd:attribute name="payment_clear_method_descr" type="xsd:string"/>
+                     <xsd:attribute name="payment_clear_status_descr" type="xsd:string"/>
+                     <xsd:attribute name="realize_cash_when_descr" type="xsd:string"/>
+                     <xsd:attribute name="transaction_type_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_payment_account">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZPaymentAccount">
+                     <xsd:attribute name="payment_type_descr" type="xsd:string"/>
+                     <xsd:attribute name="dd_state_descr" type="xsd:string"/>
+                     <xsd:attribute name="secure_bank_def_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_effort">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZTDWorkTable">
+                     <xsd:sequence>
+                        <xsd:element ref="s0:td_renewal_offer" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element ref="s0:td_billing_amount" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element ref="s0:td_promotion" minOccurs="0" maxOccurs="unbounded"/>
+                     </xsd:sequence>
+                     <xsd:attribute name="message_string" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_issue">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZIssue">
+                     <xsd:attribute name="oc_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="volume_group_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_product">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZProduct">
+                     <xsd:attribute name="oc_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="rate_class_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="order_code_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_service">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZService">
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="complaint_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="cause_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="service_code_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_suspension">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZSuspension">
+                     <xsd:attribute name="user_code_descr" type="xsd:string"/>
+                     <xsd:attribute name="begin_issue_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="end_issue_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="suspension_status_descr" type="xsd:string"/>
+                     <xsd:attribute name="old_order_status_descr" type="xsd:string"/>
+                     <xsd:attribute name="suspended_order_status_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="td_subscrip">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZSubscrip">
+                     <xsd:attribute name="cancel_reason_descr" type="xsd:string"/>
+                     <xsd:attribute name="start_issue_id_descr" type="xsd:string"/>
+                     <xsd:attribute name="stop_issue_id_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:complexType name="ZZTDWorkTable">
+            <xsd:complexContent>
+               <xsd:extension base="s0:ZZWorkTable">
+                  <xsd:attribute name="new_audit_qual_category_descr" type="xsd:string"/>
+                  <xsd:attribute name="old_audit_qual_category_descr" type="xsd:string"/>
+                  <xsd:attribute name="pay_clear_status_descr" type="xsd:string"/>
+                  <xsd:attribute name="revenue_method_descr" type="xsd:string"/>
+                  <xsd:attribute name="selected_descr" type="xsd:string"/>
+                  <xsd:attribute name="transaction_event_descr" type="xsd:string"/>
+                  <xsd:attribute name="work_record_status_descr" type="xsd:string"/>
+               </xsd:extension>
+            </xsd:complexContent>
+         </xsd:complexType>
+         <xsd:element name="td_label" type="s0:ZZTDWorkTable"/>
+         <xsd:element name="td_job">
+            <xsd:complexType>
+               <xsd:complexContent>
+                  <xsd:extension base="s0:ZZJob">
+                     <xsd:attribute name="adj_order_issue_method_descr" type="xsd:string"/>
+                     <xsd:attribute name="interval_unit_descr" type="xsd:string"/>
+                     <xsd:attribute name="log_option_descr" type="xsd:string"/>
+                     <xsd:attribute name="repeating_type_descr" type="xsd:string"/>
+                     <xsd:attribute name="status_descr" type="xsd:string"/>
+                     <xsd:attribute name="process_type_descr" type="xsd:string"/>
+                  </xsd:extension>
+               </xsd:complexContent>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:complexType name="ZZTransactionData">
+            <xsd:sequence>
+               <xsd:element ref="s0:td_customer" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element ref="s0:td_order" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element ref="s0:td_payment" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element ref="s0:td_payment_account" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element ref="s0:td_effort" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element ref="s0:td_issue" minOccurs="0"/>
+               <xsd:element ref="s0:td_product" minOccurs="0"/>
+               <xsd:element ref="s0:td_subscrip" minOccurs="0"/>
+               <xsd:element ref="s0:td_label" minOccurs="0"/>
+               <xsd:element ref="s0:td_job" minOccurs="0"/>
+               <xsd:element name="td_email_recipient" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="td_email_token" type="xsd:string" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="tenant_code" type="xsd:string"/>
+            <xsd:attribute name="dsn" type="xsd:string"/>
+            <xsd:attribute name="transaction_event" type="xsd:int" use="optional"/>
+            <xsd:attribute name="transaction_event_descr" type="xsd:string" use="optional"/>
+         </xsd:complexType>
+         <xsd:element name="think_event_notification">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="transaction_data" type="s0:ZZTransactionData"/>
+               </xsd:sequence>
+               <xsd:attribute name="site_id" type="xsd:string"/>
+               <xsd:attribute name="email" type="xsd:string"/>
+               <xsd:attribute name="failure_reason" type="xsd:string">
+               </xsd:attribute>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:simpleType name="ZZThinkEventAcknowledgmentStatus">
+            <xsd:restriction base="xsd:NMTOKEN">
+               <xsd:enumeration value="success"/>
+               <xsd:enumeration value="failure"/>
+            </xsd:restriction>
+         </xsd:simpleType>
+         <xsd:element name="think_event_acknowledgment">
+            <xsd:complexType>
+               <xsd:attribute name="status" type="s0:ZZThinkEventAcknowledgmentStatus" use="required"/>
+               <xsd:attribute name="failure_reason" type="xsd:string"/>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+   </types>
+   <service name="ThinkEventWS">
+      <documentation>THINK Subscription XML Web services.</documentation>
+      <port name="ThinkEventSoap" binding="s0:ThinkEventSoap">
+         <soap:address location="http://localhost:85/soap.slap"/>
+      </port>
+   </service>
+   <portType name="ThinkEventSoap">
+      <operation name="ThinkEvent">
+         <input message="s0:ThinkEventSoapIn"/>
+         <output message="s0:ThinkEventSoapOut"/>
+      </operation>
+   </portType>
+   <binding name="ThinkEventSoap" type="s0:ThinkEventSoap">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <operation name="ThinkEvent">
+         <soap:operation soapAction="http://Think/XmlWebServices/ThinkEvent" style="document"/>
+         <input>
+            <soap:body use="literal"/>
+         </input>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+      </operation>
+   </binding>
+   <message name="ThinkEventSoapIn">
+      <part name="parameters" element="s0:think_event_notification"/>
+   </message>
+   <message name="ThinkEventSoapOut">
+      <part name="parameters" element="s0:think_event_acknowledgment"/>
+   </message>
+</definitions>
