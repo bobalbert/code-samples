@@ -8,6 +8,7 @@ Mequoda is America's leading niche magazine consulting firm. They plan, develop 
 
 - [haven-recurly](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-recurly)
 - [haven-bad-domain-unsubscriber](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-bad-domain-unsubscriber)
+- [email-exchange-compare-tool](https://github.com/bobalbert/code-samples/tree/master/Mequoda/email-exchange-compare-tool)
 - [haven-order-manager](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-order-manager/)
 - [mequoda-think-framework](https://github.com/bobalbert/code-samples/tree/master/Mequoda/mequoda-think-framework)
 - [haven-AAA-automated-subscriber-reconciliation](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-AAA-automated-subscriber-reconciliation)
