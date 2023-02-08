@@ -99,7 +99,7 @@ WHERE {$user_ids_in} AND ( {$bad_domains} );";
 			$message = "Result,User Id,Email,Expires,Expire Date,Error". "\n";
 
 			foreach( $results as $result ){
-				
+
 				$userdata = $result[1];
 				if( 'success' == $result[0] ){
 					$message .= "unsubscribed,{$userdata->ID},{$userdata->user_email},{$userdata->expires},{$userdata->expire_date}" . "\n";
