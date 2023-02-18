@@ -14,6 +14,9 @@ Mequoda is America's leading niche magazine consulting firm. They plan, develop 
 - [haven-AAA-automated-subscriber-reconciliation](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-AAA-automated-subscriber-reconciliation)
 - [haven-post-data-exporter](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-post-data-exporter)
 
+### JavaScript
+Here are some samples of some JavaScript projects. I've been working on learning React in general to have a better understanding for building custom WordPress Blocks.
+- [catch-of-the-day](https://github.com/bobalbert/code-samples/tree/master/JavaScript/catch-of-the-day)
 
 ### Korrio, Inc.
 Korrio provides an integrated, online sports automation platform that simplifies team enrollment, planning, scheduling, communications, and life for sports clubs, teams, families, and players. The company was acquired by [TeamSnap, Inc](https://www.teamsnap.com/) in 2017
