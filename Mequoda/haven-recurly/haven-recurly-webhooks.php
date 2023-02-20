@@ -79,46 +79,6 @@ class mqRecurlyWebhook
 			switch ($notification->type) {
 
 				case "renewed_subscription_notification":
-					/*
-					 * The renewed_subscription_notification is sent whenever a subscription renews.
-					 * This notification is sent regardless of a successful payment being applied to the subscription---it indicates the previous term is over and the subscription is now in a new term.
-					 * If you are performing metered or usage-based billing, use this notification to reset your usage stats for the current billing term.
-					 *
-					 * Haven: we need to update the user's expiration date
-					 */
-
-					/*
-					 * <?xml version="1.0" encoding="UTF-8"?>
-						<renewed_subscription_notification>
-						  <account>
-						    <account_code>1</account_code>
-						    <username nil="true"></username>
-						    <email>verena@example.com</email>
-						    <first_name>Verena</first_name>
-						    <last_name>Example</last_name>
-						    <company_name nil="true"></company_name>
-						  </account>
-						  <subscription>
-						    <plan>
-						      <plan_code>bootstrap</plan_code>
-						      <name>Bootstrap</name>
-						    </plan>
-						    <uuid>6ab458a887d38070807ebb3bed7ac1e5</uuid>
-						    <state>active</state>
-						    <quantity type="integer">1</quantity>
-						    <total_amount_in_cents type="integer">9900</total_amount_in_cents>
-						    <subscription_add_ons type="array"/>
-						    <activated_at type="datetime">2010-07-22T20:42:05Z</activated_at>
-						    <canceled_at nil="true" type="datetime"></canceled_at>
-						    <expires_at nil="true" type="datetime"></expires_at>
-						    <current_period_started_at type="datetime">2010-09-22T20:42:05Z</current_period_started_at>
-						    <current_period_ends_at type="datetime">2010-10-22T20:42:05Z</current_period_ends_at>
-						    <trial_started_at nil="true" type="datetime"></trial_started_at>
-						    <trial_ends_at nil="true" type="datetime"></trial_ends_at>
-						    <collection_method>automatic</collection_method>
-						  </subscription>
-						</renewed_subscription_notification>
-					 */
 
 					$this->from_recurly_log( $notification->type . ' XML', $post_xml );
 					$this->from_recurly_log( $notification->type . ' DATA', $notification );
@@ -167,39 +127,6 @@ class mqRecurlyWebhook
 
 					$this->from_recurly_log( $notification->type . ' XML', $post_xml );
 					$this->from_recurly_log( $notification->type . ' DATA', $notification );
-					/*
-					<?xml version="1.0" encoding="UTF-8"?>
-					<successful_payment_notification>
-					  <account>
-					    <account_code>1</account_code>
-					    <username nil="true">verena</username>
-					    <email>verena@example.com</email>
-					    <first_name>Verena</first_name>
-					    <last_name>Example</last_name>
-					    <company_name nil="true">Company, Inc.</company_name>
-					  </account>
-					  <transaction>
-					    <id>a5143c1d3a6f4a8287d0e2cc1d4c0427</id>
-					    <invoice_id>1974a09kj90s0789dsf099798326881c</invoice_id>
-					    <invoice_number type="integer">2059</invoice_number>
-					    <subscription_id>1974a098jhlkjasdfljkha898326881c</subscription_id>
-					    <action>purchase</action>
-					    <date type="datetime">2009-11-22T13:10:38Z</date>
-					    <amount_in_cents type="integer">1000</amount_in_cents>
-					    <status>success</status>
-					    <message>Bogus Gateway: Forced success</message>
-					    <reference></reference>
-					    <source>subscription</source>
-					    <cvv_result code=""></cvv_result>
-					    <avs_result code=""></avs_result>
-					    <avs_result_street></avs_result_street>
-					    <avs_result_postal></avs_result_postal>
-					    <test type="boolean">true</test>
-					    <voidable type="boolean">true</voidable>
-					    <refundable type="boolean">true</refundable>
-					  </transaction>
-					</successful_payment_notification>
-					*/
 
 					// look up the subscription uuid (recurly_uuid) and invoice number (recurly_invoice_number)
 					$subscription_uuid = $notification->transaction->subscription_id->__toString();
@@ -235,15 +162,6 @@ class mqRecurlyWebhook
 							// enter new renewal order
 							$record_renewal = $this->record_renewal_order( $orders[0], $invoice_number, $payment, $date );
 
-
-							// don't update expire dates this is now handled by
-							// subscription_renewed and subscription_expired
-							/*if ( 'yes' != $mqRecurly->getSetting('tsi') ) {
-								$params['itemId']  = $orders[0]->id;
-								$params['user_id'] = $orders[0]->user_id;
-								meq_record_access( $params );
-							}*/
-
 							// track renewal order
 							$track_args        = array(
 								'itemId'    => $orders[0]->id,
@@ -259,19 +177,6 @@ class mqRecurlyWebhook
 							// existing order???
 						}
 
-					} else {
-
-						// No order found for supplied subscription.
-						// commented out because typically this isn't in the data base yet due to order of web hooks
-						// stop the main madness ;-)
-						/*$this->_errors = array(
-							'error' => 'No order found for subscription ID',
-							'web_hook' => $notification->type,
-							'subscription_id' => $subscription_uuid,
-							'post_xml' => $post_xml
-						);
-
-						$this->_sendErrors();*/
 					}
 
 					break;
@@ -333,42 +238,7 @@ class mqRecurlyWebhook
 					break;
 
 				case "expired_subscription_notification":
-					/*
-						The expired_subscription_notification is sent when a subscription is no longer valid.
-						This can happen if a canceled subscription expires or if an active subscription is refunded (and terminated immediately).
-						If you receive this message, the account no longer has a subscription.
-					*/
-					/*
-					 * <expired_subscription_notification>
-						  <account>
-						    <account_code>1</account_code>
-						    <username nil="true"></username>
-						    <email>verena@example.com</email>
-						    <first_name>Verena</first_name>
-						    <last_name>Example</last_name>
-						    <company_name nil="true"></company_name>
-						  </account>
-						  <subscription>
-						    <plan>
-						      <plan_code>1dpt</plan_code>
-						      <name>Subscription One</name>
-						    </plan>
-						    <uuid>d1b6d359a01ded71caed78eaa0fedf8e</uuid>
-						    <state>expired</state>
-						    <quantity type="integer">1</quantity>
-						    <total_amount_in_cents type="integer">200</total_amount_in_cents>
-						    <subscription_add_ons type="array"/>
-						    <activated_at type="datetime">2010-09-23T22:05:03Z</activated_at>
-						    <canceled_at type="datetime">2010-09-23T22:05:43Z</canceled_at>
-						    <expires_at type="datetime">2010-09-24T22:05:03Z</expires_at>
-						    <current_period_started_at type="datetime">2010-09-23T22:05:03Z</current_period_started_at>
-						    <current_period_ends_at type="datetime">2010-09-24T22:05:03Z</current_period_ends_at>
-						    <trial_started_at nil="true" type="datetime">
-						    </trial_started_at><trial_ends_at nil="true" type="datetime"></trial_ends_at>
-						    <collection_method>automatic</collection_method>
-						  </subscription>
-						</expired_subscription_notification>
-					 */
+
 					$this->from_recurly_log( $notification->type . ' XML', $post_xml );
 					$this->from_recurly_log( $notification->type . ' DATA', $notification );
 

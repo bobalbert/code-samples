@@ -20,43 +20,6 @@
  */
 
 
-/* CHANGE LOG
- *	2018-11-30 - 0.1.14 - Anthony Laurence (CAB-1381)
- *		- changed method to 'transaction_first' in refundInvoice
- *  2017-01-13 - 0.1.13 - Anthony Laurence
- *      - added refundInvoice() to refund transaction purchases
- *  2017-01-13 - 0.1.12 - Bob Albert
- *      - added error message for Recurly Server Connection errors
- *  2016-12-29 - 0.1.11 - Anthony Laurence
- *      - added $billing_info->first_name, $billing_info->last_name to createTransaction() as these are required for Recurly transactions
- *  2016-12-14 - 0.1.10 - Bob Albert
- *      - fix refund amount when terminate without refund chosen
- *  2016-10-24 - 0.1.9 - Bob Albert
- *      - support for coupon codes for paid trials with reduce price first term
- *  2016-09-07 - 0.1.8 - Bob Albert
- *      - move post processing for cancel and terminate to actions
- *  2016-09-01 - 0.1.7 - Bob Albert
- *      - update cancels to account for renewal notice data in orders and WC
- *  2016-08-04 - 0.1.6 - Bob Albert
- *      - updates for Cancel at Renewal and Terminate with or without Refund
- *  2016-07-26 - 0.1.5 - Bob Albert
- *      - updates for Renewals -> in haven-recurly-webhooks.php
- *      - Properly handle auto renewal notifications (successful payments) from Recurly via web hook
- *  2016-07-23 - 0.1.4 - Bob Albert
- *      - updates for createTransaction for Event Purchase
- *  2016-07-18 - 0.1.3 - Bob Albert
- *      - added createTransaction( $params ) method
- *      - initial addition to support "Event" purchases and the Haven Events plugin.
- *      - should be used for one off transactions
- *  2016-07-15 - Bob Albert
- *      - add initial methods for Cancel and Refunds
- *  2016-04-20 to 2016-07-15 - Bob Albert
- *      - initial creation of plugin
- *      - initial setup for TSI as first customer
- *
- */
-
-
 // load Recurly helper class
 require_once( plugin_dir_path( __FILE__ ) . '/lib/recurly.php');
 
@@ -116,29 +79,6 @@ class mqRecurly
 		global $wpdb;
 
 		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
-
-		/*
-		 *      'post_xml'        => $post_xml,
-				'type'            => $notification->type,
-				'invoice_number'  => $notification->transaction->invoice_number->__toString(),
-				'subscription_id' => $notification->transaction->subscription_id->__toString(),
-				'transaction_id'  => $notification->transaction->id->__toString(),
-				'action'          => $notification->transaction->action->__toString(),
-				'date'            => $notification->transaction->date->__toString(),
-				'amount_in_cents' => $notification->transaction->amount_in_cents->__toString(),
-				'status'          => $notification->transaction->status->__toString(),
-				'account_code'    => $notification->account->account_code->__toString(),
-				'email'           => $notification->account->email->__toString(),
-				'first_name'      => $notification->account->first_name->__toString(),
-				'last_name'       => $notification->account->last_name->__toString(),
-				'order_id'        => $order->id,
-				'user_id'         => $order->user_id,
-				'product_id'      => $order->product_id,
-				'offer_id'        => $order->offer_id,
-				'price'           => $order->price,
-				'term'            => $order->term,
-				'first_payment'   => $first_payment
-		 */
 
 		dbDelta(  "CREATE TABLE `{$wpdb->prefix}{$this->_recurlyWebhooksTable}` (
 			id bigint(20) unsigned NOT NULL auto_increment,
@@ -601,42 +541,6 @@ class mqRecurly
 	 */
 
 	public function createPlan( $offer ){
-		/*
-		 * $offer
-		Array
-		(
-		    [id] => 13
-		    [publication] =>
-		    [product_id] => 97
-		    [product_type] => Digital
-		    [title] => Test Offer
-		    [description] => test offer description
-		    [headline] => test offer headline
-		    [pay_headline] => test offer headline
-		    [order_summary_product_name] => test order summary
-		    [activation_date] =>
-		    [expiration_date] =>
-		    [external_id] =>
-		    [default_offer] => 1
-		    [renewal_offer] => 1
-		    [sequence] => 1
-		    [amt] => 12.00
-		    [currency] => CAD
-		    [auto_renew] => 1
-		    [freq] => 1
-		    [period] => Year
-		    [totalbillingcycles] =>
-		    [initamt] => 0.00
-		    [region_limit] => us_ca_only
-		    [trialamt] => 0.00
-		    [trialfreq] => 1
-		    [trialperiod] => Month
-		    [totaltrialcycles] => 0
-		    [active] => 1
-		    [us_only] => 0
-		    [us_exclude] => 0
-		)
-		 */
 
 		$product_title = get_the_title( $offer['product_id'] );
 
@@ -710,13 +614,6 @@ class mqRecurly
 			} else {
 				$plan->auto_renew = 1;
 			}
-
-			// apply the coupon instead of setup fee for paid offers
-			/*if( $offer['trialamt'] != '0.00' ){
-				$trial_amount = number_format( $offer['trialamt'], 2 ) * 100;
-				$plan->setup_fee_in_cents->addCurrency( $offer['currency'], $trial_amount );
-			}*/
-
 
 			$plan->tax_exempt = false;
 
@@ -808,13 +705,6 @@ class mqRecurly
 			if( !empty( $offer['totalbillingcycles'] ) ){
 				$plan->total_billing_cycles = $offer['totalbillingcycles'];
 			}
-
-			// apply the coupon instead of setup fee for paid offers
-			/*if( $offer['trialamt'] != '0.00' ){
-				$trial_amount = number_format( $offer['trialamt'], 2 ) * 100;
-				$plan->setup_fee_in_cents->addCurrency( $offer['currency'], $trial_amount );
-			}*/
-
 
 			$plan->tax_exempt = false;
 			$plan->update();
@@ -1005,9 +895,6 @@ class mqRecurly
 			            },
 			            $invoice->line_items
 					);
-					
-				//	wp_mail('webdesignbyanthony@gmail.com', 'cab recurly', print_r( $adjustments, true ) );
-				//	exit;
 
 		            $refund_invoice        = $invoice->refund( $adjustments, 'transaction_first' );
 		            $refund_amt            = abs( $refund_invoice->subtotal_in_cents / 100 );
