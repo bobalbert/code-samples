@@ -18,7 +18,8 @@ import {
 	AlignmentToolbar,
 	InspectorControls,
 	PanelColorSettings,
-	ContrastChecker
+	ContrastChecker,
+	withColors
 } from '@wordpress/block-editor';
 
 /**
@@ -38,8 +39,18 @@ import {appearance} from "../../../../wp-includes/js/codemirror/csslint";
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( { attributes, setAttributes }) {
-	const { text, alignment, backgroundColor, textColor } = attributes;
+function Edit( props ) {
+
+	const {
+		attributes,
+		setAttributes,
+		backgroundColor,
+		textColor,
+		setBackgroundColor,
+		setTextColor
+	} = props;
+
+	const { text, alignment } = attributes;
 
 	const onChangeAlignment = ( newAlignment ) => {
 		setAttributes( {alignment: newAlignment} );
@@ -47,14 +58,6 @@ export default function Edit( { attributes, setAttributes }) {
 
 	const onChangeText = ( newText ) => {
 		setAttributes({ text: newText } );
-	}
-
-	const onChangeBackgroundColor = ( newBgColor ) => {
-		setAttributes( { backgroundColor: newBgColor } );
-	}
-
-	const onChangeTextColor = ( newTextColor ) => {
-		setAttributes( { textColor: newTextColor } );
 	}
 
 	return (
@@ -66,20 +69,20 @@ export default function Edit( { attributes, setAttributes }) {
 					initialOpen
 					colorSettings={[
 						{
-							value:backgroundColor,
-							onChange: onChangeBackgroundColor,
+							value:backgroundColor.color,
+							onChange: setBackgroundColor,
 							label: __( 'Background Color', 'text-box' )
 						},
 						{
-							value: textColor,
-							onChange: onChangeTextColor,
+							value: textColor.color,
+							onChange: setTextColor,
 							label: __( 'Text Color', 'text-box')
 						}
 					]}
 				>
 					<ContrastChecker
-						textColor={textColor}
-						backgroundColor={backgroundColor}
+						textColor={textColor.color}
+						backgroundColor={backgroundColor.color}
 					/>
 				</PanelColorSettings>
 			</InspectorControls>
@@ -93,8 +96,8 @@ export default function Edit( { attributes, setAttributes }) {
 				{ ...useBlockProps({
 					className: `text-box-align-${alignment}`,
 					style: {
-						backgroundColor,
-						color: textColor
+						backgroundColor: backgroundColor.color,
+						color: textColor.color
 					}
 				}) }
 				onChange={ onChangeText }
@@ -106,3 +109,8 @@ export default function Edit( { attributes, setAttributes }) {
 		</>
 	);
 }
+
+export default withColors({
+	backgroundColor: "backgroundColor",
+	textColor: "color"
+})( Edit );

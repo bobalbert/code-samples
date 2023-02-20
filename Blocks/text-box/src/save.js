@@ -4,7 +4,8 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { useBlockProps, RichText, getColorClassName } from '@wordpress/block-editor';
+import classNames from "classnames";
 
 /**
  * The save function defines the way in which the different attributes should
@@ -16,14 +17,30 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function save( { attributes } ) {
-	const { text, alignment, backgroundColor, textColor } = attributes;
+	const { text, alignment, backgroundColor, textColor, customBackgroundColor, customTextColor } = attributes;
+
+	const backgroundClass = getColorClassName(
+		"background-color",
+		backgroundColor
+	);
+
+	const textClass = getColorClassName(
+		"color",
+		textColor
+	);
+
+	const classes = classNames(`text-box-align-${alignment}`, {
+		[textClass]: textClass,
+		[backgroundClass]: backgroundClass
+	});
+
 	return (
 		<RichText.Content
 			{ ...useBlockProps.save({
-				className: `text-box-align-${alignment}`,
+				className: classes,
 				style: {
-					backgroundColor,
-					color: textColor
+					backgroundColor: backgroundClass ? undefined : customBackgroundColor,
+					color: textClass ? undefined : customTextColor
 				}
 			}) }
 			tagName="h4"
