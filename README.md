@@ -14,6 +14,10 @@ Mequoda is America's leading niche magazine consulting firm. They plan, develop 
 - [haven-AAA-automated-subscriber-reconciliation](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-AAA-automated-subscriber-reconciliation)
 - [haven-post-data-exporter](https://github.com/bobalbert/code-samples/tree/master/Mequoda/haven-post-data-exporter)
 
+### WordPress Blocks
+Here are some samples of custom Blocks I'm building as I learn more about custom block coding.
+- [Text-Box Block](https://github.com/bobalbert/code-samples/tree/master/Blocks/text-box)
+
 ### JavaScript
 Here are some samples of some JavaScript projects. I've been working on learning React in general to have a better understanding for building custom WordPress Blocks.
 - [catch-of-the-day](https://github.com/bobalbert/code-samples/tree/master/JavaScript/catch-of-the-day)
