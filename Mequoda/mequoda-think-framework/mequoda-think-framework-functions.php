@@ -23,10 +23,6 @@ function mq_get_products_for_think( $think_order_code, $think_subscription_def_i
 
 	global $wpdb;
 
-	/*$sql = $wpdb->prepare( "SELECT prod.post_id as product_id, off.id as offer_id FROM wp_postmeta prod
-JOIN wp_mequoda_offers off ON prod.post_id = off.product_id
-WHERE prod.meta_key = 'think_order_code' AND prod.meta_value = %s AND off.external_id = %s", $think_order_code, $think_subscription_def_id );*/
-
 	$sql = $wpdb->prepare( "SELECT * FROM wp_mequoda_offers off WHERE external_id = %s", $think_subscription_def_id );
 
 	$result = $wpdb->get_row( $sql );

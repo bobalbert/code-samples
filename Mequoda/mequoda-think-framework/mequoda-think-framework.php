@@ -8,13 +8,6 @@
  * Author URI: http://www.mequoda.com/
  */
 
-/**
- * Changelog:
- *
- * 0.1 Bob Albert
- *  - Original version
- */
-
 // load the SOAP web service
 require_once( WP_PLUGIN_DIR . '/mequoda-think-framework/mequoda-think-framework-ws.php' );
 
@@ -250,7 +243,7 @@ class mqThinkFramework
 ?>
 				<table class="form-table">
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_service_url">
 								<?php _e('Service URL:', 'think-framework') ?>
@@ -261,7 +254,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_wsdl_url">
 								<?php _e('WSDL URL:', 'think-framework') ?>
@@ -283,7 +276,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_user_password">
 								<?php _e('User Password:', 'think-framework') ?>
@@ -294,7 +287,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_dsn">
 								<?php _e('DSN:', 'think-framework') ?>
@@ -305,7 +298,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_doc_ref_id">
 								<?php _e('Doc Ref ID:', 'think-framework') ?>
@@ -316,7 +309,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_error_email">
 								<?php _e('Error Email:', 'think-framework') ?>
@@ -330,7 +323,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<?php _e('Web Service Logging Mode', 'think-framework') ?>
 						</th>
@@ -345,7 +338,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<?php _e('Debugging Mode', 'think-framework') ?>
 						</th>
@@ -360,7 +353,7 @@ class mqThinkFramework
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr>
 						<th scope="row">
 							<label for="<?php echo $this->_optionsName; ?>_debugging_email">
 								<?php _e('Debugging Email', 'tdc-framework') ?>
@@ -572,13 +565,6 @@ class mqThinkFramework
 			$purchase = shopp_order( $shopp_data->id );
 
 		} else if( 'ShoppCustomer' == $shopp_class ){
-		/* if ShoppCustomer object, then this is shopp_registerd_user action */
-
-			/*$Customer = shopp_customer( $shopp_data->id );
-			$user_id = $Customer->wpuser;*/
-
-			// get wp_userid from passed Customer object from action hook
-			//$user_id  = $shopp_data->wpuser;
 
 			// get the current purchase for user
 			$purchase = ShoppPurchase();
@@ -673,7 +659,6 @@ class mqThinkFramework
 
 		$this->to_think_log( 'proccssShoppOrder - end', $response);
 
-
 		return true;
 	}
 
@@ -767,12 +752,6 @@ class mqThinkFramework
 
 		// is this an auto renewal order?
 		$auto_renewal = $order_data['auto_renew'];
-
-		// if international address, then update state with country code
-		/*if( $order->country != 'CA' && $order->country != 'US' ){
-			$country_state_code = mq_country_to_think_state( $order->country );
-			$order->state = $country_state_code;
-		}*/
 
 		$args = array(
 			'customer_id'             => $think_customer_id,
@@ -1071,22 +1050,6 @@ class mqThinkFramework
 	}
 
 	public function processCancelAtEnd( $order ){
-
-		/**
-		 * INFO -
-		 *  => 06-13-2016 (request by Ellen/CSN to not change renewal status so notices are still sent.)
-		 *
-		 * For “Cancel At End” in THINK, i’m using OrderItemEdit and essentially editing the order and setting:
-		renewal_status = 1
-		auxiliary_data (zzaux_autorenewflag) = 0
-		 *
-		This is what Sean told me to do as a cancel at end:
-		"Cancel at end: you’ll need to set the renewal_status and aux field so THINK doesn’t try to send the notice"
-		 *
-		Further from the THINK docs:
-		"renewal_status, auto_payment
-		In the absence of a renewal_status field in the <item_data> element, the renewal_status column receives the default value of 0, meaning that the subscriber can expect to receive renewal notices. In this case, the auto_payment column is ignored. If you want to tell THINK Enterprise not to send renewal notices to the subscriber, include a renewal_status field with a value of 1 in the <item_data> element. If you want the subscription to be renewed automatically when it expires, include a renewal_status field with a value of 2 (along with an auto_payment field with a value of 0 or 1, depending upon whether you do not want the system to generate a payment automatically or not) in the <item_data> element.”
-		 */
 
 		$this->to_think_log( 'processCancelAtEnd - begin', $order );
 
@@ -1459,10 +1422,6 @@ class mqThinkFramework
 						'phone' => $order_data->phone,
 						'email' => $order_data->user_email
 				),
-				/*'customer_login_data' => array(
-						'login' => 'balbert',
-						'password' => '$P$BcdkqaYdMCcukJPqbfw4OFWRQRYTxG0'
-				),*/
 				'order_data' => array(
 						'item_data' => array(
 								'order_code_id' => $order_code_id,
@@ -2028,7 +1987,7 @@ class mqThinkFramework
 	}
 
 	/**
-	 * Add new Order  to existing customer
+	 * Add new Order to existing customer
 	 *
 	 * API doc      - order_add_request
 	 * WSDL Method  - OrderAdd
@@ -2208,31 +2167,6 @@ class mqThinkFramework
 	 * @param $user_id
 	 */
 	public function editCustomerAddress( $user_id ){
-
-		/* api docs sample request
-		<customer_address_edit_request doc_ref_id="1" submit = "yes">
-			<user_login_data>
-				<login>updoc</login>
-				<password>what's</password>
-			</user_login_data>
-			<customer_address_identifier>
-				<customer_identifier>
-					<login>sam</login>
-					<password>iam</password>
-				</customer_identifier>
-				<customer_address_seq>1</customer_address_seq>
-			</customer_address_identifier>
-			<customer_address_data>
-				<fname>Richard</fname>
-				<initial_name>K</initial_name>
-			</customer_address_data>
-		</customer_address_edit_request>
-		*/
-
-		/* tests...
-		balbert     (bob albert)    1622455
-		balbert2    (bob2 albert2)  1622471
-		*/
 
 		$customer_id = 1622455;
 

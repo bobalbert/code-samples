@@ -8,35 +8,6 @@
  * Author URI: http://www.mequoda.com
  */
 
-/**
- *  Changelog:
- *      0.9 - 2018-03-22 Michael Wendell
- *          - fix entitlement functions, edit indents for code-folding
- *      0.8 - 2017-01-13 Bob Albert
- *          - remove "events" from list of orders
- *      0.7 - 2016-12-12 Bob Albert
- *          - add button to edit expiration date.
- *      0.6 - 2016-12-12 Bob Albert
- *          - add buttons to add and remove "postal" from a subscription for Cabot.
- *          - basically adds and removes "print" channel from user's entitlements
- *          - ( @todo need to update this to be generic for channel types )
- *      0.5 - 2016-12-06 Bob Albert
- *          - revert change of offer_id to ofid back to offer_id, as that is correct.
- *          - make sure all manual orders account for send_order_confirmation field
- *      0.42 - 2016-12-06 Trey Melton
- *          + Function place_order() - Added 'send_order_confirmation' variable to $args array to properly execute confirmation email
- *          +/- Changed 'offer_id' to 'ofid' in $args array to prevent transaction record failure
- *      0.4 - 2016/10/19 (Bob Albert)
- *          - support multiple custom post types for products
- *          - add mqOrderManager_product filter on default "Subscription" product name in place-order-cc-form.php
- *      0.3 - 2016/10/19 (Bob Albert)
- *          - ability to place a comp order
- *      0.2 - 2016/10/10 (Bob Albert)
- *          - implemented special "Cancel" button for converted/legacy/imported non auto renewing orders
- *      0.1 - 2016/08/25 (Bob Albert)
- *          - initial creation
- */
-
 class mqOrderManager {
 
 	private $_settings;
@@ -670,10 +641,6 @@ add_action( 'wp_ajax_cancel_legacy', 'mom_cancel_legacy_ajax' );
 function mom_cancel_legacy_ajax(){
 
 	$order_id = $_POST['order_id'];
-
-	//?? action ??
-	//do_action( 'cancel_legacy', $order_id );
-
 
 	global $wpdb;
 	$sql = $wpdb->prepare( "select * from wp_mequoda_orders where id = %s", $order_id );

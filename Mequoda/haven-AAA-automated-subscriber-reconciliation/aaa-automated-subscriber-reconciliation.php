@@ -14,13 +14,6 @@
  *
  */
 
-/** CHANGE LOG
- *  1.1: 11-30-2018 (Bob Albert)
- *      - AAA-598 update process reports script to handle large data sets
- *  1.0: (Bob Albert)
- *      - Initial version
-*/
-
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -53,11 +46,8 @@ class AAA_Automated_Subscriber_Reconciliation
 	public function admin_options() {
 		$plugin_data = get_plugin_data(__FILE__, 0, 0);
 
-		// /home/devlocal.magazine.northeast.aaa.com/devlocal.magazine.northeast.aaa.com/private/products/
-
         $reports_path = str_replace(  '/products/', '/reconciliation_reports',DOWNLOAD_PATH);
 
-        //$reports_path = '/Applications/MAMP/htdocs/mequoda/aaa/private/reconciliation_reports';
 		$add_files = array_diff( scandir( $reports_path.'/add', 1 ), array( '.', '..' ) );
 		$remove_files = array_diff( scandir( $reports_path.'/remove', 1 ), array( '.', '..' ) );
 

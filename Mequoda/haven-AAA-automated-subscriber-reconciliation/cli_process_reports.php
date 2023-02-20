@@ -105,14 +105,6 @@ if ( ( php_sapi_name() == 'cli' ) || ( $ts ) ) {
 	"
 	);
 
-	// create a data array/list of the REMOVEs
-	// AAA-598 for large data sets consumes too much memory/time.
-	/*$remove_data = array();
-	foreach( $diff_remove as $remove_user_id ){
-		$remove_user = get_user_by('ID', $remove_user_id );
-		$remove_data[] = array($remove_user->user_email);
-	}*/
-
 	//get all the user ids of the removes for email query
 	$remove_ids = implode( ',', $diff_remove );
 

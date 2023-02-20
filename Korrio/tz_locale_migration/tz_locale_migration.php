@@ -82,56 +82,5 @@ error_log("Starttime: {$starttime}, Endtime: {$endtime}" ."\n",3,'/var/log/korri
 
 echo "done!";
 
-/*
- * Previous version using google maps api.
- * following is just a test but since i have too many to lookup i quickly exceed the daily limit.
- * Thus abandoned for above.
-
- $sql = $wpdb->prepare( "SELECT user_id, meta_value
-        FROM `wp_usermeta`
-        WHERE `user_id` IN (628442,628458,628514,628561,628662,629128,629213,629248,629472,629605)
-        AND meta_key = 'raw_json_address'", '' );
-
-$raw_addresses = $wpdb->get_results($sql);
-
-foreach ( $raw_addresses as $json_address ){
-
-    $address = json_decode( $json_address->meta_value);
-
-    echo "<p>";
-    echo "<br/>user_id: " . $json_address->user_id;
-    echo "<br/>zip_postalcode: " . $address->zip_postalcode;
-
-    $requestAddress = "http://maps.googleapis.com/maps/api/geocode/json?address={$address->zip_postalcode}&sensor=false";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $requestAddress);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $xml_str = curl_exec($ch);
-
-    echo "<br/>";
-    $results = json_decode( $xml_str );
-
-    $latlgn = $results->results[0]->geometry->location->lat .','.$results->results[0]->geometry->location->lng;
-    echo "lat,lgn: " . $latlgn;
-
-    echo "<br/>";
-    $requestLatLgn = "https://maps.googleapis.com/maps/api/timezone/json?location={$latlgn}&timestamp=1406569985";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $requestLatLgn);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $xml_str = curl_exec($ch);
-
-    $resultLatLng =  json_decode($xml_str);
-
-    echo 'timezone: ' . $resultLatLng->timeZoneId;
-
-    xprofile_set_field_data( 'tz_locale', $json_address->user_id, $resultLatLng->timeZoneId );
-    wp_cache_delete($json_address->user_id, 'usermeta_and_xprofile');
-
-    echo "</p>";
-
-    usleep(100000);
-}
-*/
 ?>
 

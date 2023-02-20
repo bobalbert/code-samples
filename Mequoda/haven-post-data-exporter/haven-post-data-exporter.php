@@ -8,13 +8,6 @@
  * Author URI: http://www.mequoda.com
  */
 
-/*
- * change log
- * 0.2 fix script and style enqueue
- * 0.1 Initial version
- *
- */
-
 /**
  * Class mqExportPostData
  */
@@ -44,9 +37,6 @@ class mqExportPostData
 	}
 
 	public function adminMenu() {
-		//add_options_page(__('Haven Post Data Exporter'), __('Haven Post Data Exporter'), 'manage_options', 'mq-post-data-exporter', array($this, 'options'));
-		//add_submenu_page( 'my-top-level-handle', 'Page title', 'Sub-menu title', 'manage_options', 'my-submenu-handle', 'my_magic_function');
-		//add_submenu_page('edit.php', __('Category Icons','category_icons') , __('Category Icons','category_icons') , 'manage_categories' , basename(__FILE__) , 'ig_caticons_adminpanel' );
 		add_submenu_page('edit.php',__('Haven Post Data Exporter'), __('Haven Post Data Exporter'), 'manage_categories', basename(__FILE__), array($this, 'options'));
 	}
 
@@ -247,9 +237,7 @@ class mqExportPostData
 
 			}
 
-
 			$query_args = array(
-				//'category_name' => $cat,
 				'cat' => $cat,
 				'post_status' => 'published',
 				'posts_per_page' => -1,
@@ -261,19 +249,15 @@ class mqExportPostData
 				$query_args['date_query'] = $date_query;
 			}
 
-			$query = new WP_Query($query_args);//echo $query;
-			//echo '<table class="wp-list-table widefat fixed striped"><thead><tr><th>publish date</th><th>post title</th><th>post category</th><th>url</th></tr></thead><tbody>';
+			$query = new WP_Query($query_args);
 
 			$csv_body = 'Publish Date, Post Title, Post Category, URL, Blockbuster' . "\r\n";
 
 
 		if ( $query->have_posts() ) {
 			foreach ($query->posts as $post) {
-				/*echo '<tr>';
-				echo '<td>' . $post->post_date . '</td>';*/
-				$csv_body .= $post->post_date . ',';
 
-				/*echo '<td>' . $post->post_title . '</td>';*/
+				$csv_body .= $post->post_date . ',';
 				$csv_body .= '"' . $post->post_title . '",';
 
 				$categories = get_the_category($post->ID);
@@ -289,11 +273,10 @@ class mqExportPostData
 					$i++;
 				}
 
-				/*echo '<td>' . $thelist . '</td>';*/
 				$csv_body .= '"' . $thelist . '",';
 
 				$permalink = get_permalink($post->ID);
-				/*echo '<td><a href="' . $permalink . '" target="_blank">' . $permalink . '</a></td>';*/
+
 				$csv_body .= $permalink .",";
 
 				$blockbuster = get_post_meta( $post->ID, 'blockbusterpost', true );
@@ -302,13 +285,8 @@ class mqExportPostData
 				} else {
 					$csv_body .= "\r\n";
 				}
+			}
 
-				/*echo '</tr>';*/
-			}/*echo '</tbody></table>';
-
-			echo '<p><pre>';
-			echo $csv_body;
-			echo '</pre></p>';*/
 			header("Content-type: application/octet-stream");
 			header("Content-Disposition: attachment; filename=\"post-data-export.csv\"");
 			echo $csv_body;
@@ -328,10 +306,6 @@ class mqExportPostData
             <p><?php _e( 'No Posts Found. Bummer!', 'mq_exporter' ); ?></p>
         </div>
 		<?php
-	}
-
-	public function food_build_meta_box( $post ){
-		// our code here
 	}
 
 }
